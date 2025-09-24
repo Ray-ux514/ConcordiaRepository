@@ -20,14 +20,32 @@ function setup() {
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
  */
 function draw() {
-  fill(34, 139, 34);
+  push();
+  fill(24, 139, 34);
   noStroke();
-  ellipse(width / 2, height, width * 1.5, height);
+  ellipse(width / 2.5, height, width, height * 0.8);
+  pop();
 
-  fill(46, 139, 87);
+  push();
+  fill(86, 139, 87);
   noStroke();
-  ellipse(width / 1.5, height, width, height * 1);
+  ellipse(width / 1.5, height, width, height * 0.9);
+  pop();
 
-  fill(255, 255, o);
-  ellipsoid(300);
+  push();
+  fill(255, 255, 0);
+  noStroke();
+  ellipse(250, 450, 250, 250);
+  pop();
+
+  /** drawing bird */
+  push();
+  fill(0, 0, 0);
+  ellipse(650, 650, 20, 20);
+  pop();
+  /** drawing bird */
+  push();
+  fill(0, 0, 0);
+  ellipse(850, 650, 10, 10);
+  pop();
 }
