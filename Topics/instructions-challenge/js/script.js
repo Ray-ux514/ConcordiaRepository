@@ -48,4 +48,15 @@ function draw() {
   fill(0, 0, 0);
   ellipse(850, 650, 10, 10);
   pop();
+
+  /** drawing house */
+  push();
+  fill(23, 116, 160);
+  box(30, 50, 0, 400, 80);
+  pop();
+
+  push();
+  fill(326, 867, 901);
+  triangle(30, 75, 58, 20, 86, 75);
+  pop();
 }
