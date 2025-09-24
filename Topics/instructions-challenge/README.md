@@ -2,13 +2,13 @@
 
 AUTHOR NAME
 
-[View this project online](https://ray-ux514.github.io/ConcordiaRepository/Topics/template-p5-project/)
+[View this project online](URL_FOR_THE_RUNNING_PROJECT)
 
 ## Description
 
 This description should help the reader understand what the program is, anything they should know to be able to experience it (controls, special features, etc.), and what the desired user experience is. For example:
 
-> _The Mayor of Clown Town_ is a simulator experience that allows the user to control a small town populated entirely by clowns.
+> *The Mayor of Clown Town* is a simulator experience that allows the user to control a small town populated entirely by clowns.
 
 > The experience is controlled via the mouse, with left click selecting a clown and bringing up a menu of options such as "slip of banana peel" or "get into impossible capacious clown-car."
 
