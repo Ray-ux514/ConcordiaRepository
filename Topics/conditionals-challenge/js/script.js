@@ -12,7 +12,7 @@ const puck = {
   size: 100,
   fill: "#ff0000",
   fills: {
-    noOverlap: "#FFC0CB", // red for no overlap
+    noOverlap: "#ff0000", // red for no overlap
     overlap: "#00ff00", // green for overlap
   },
 };
@@ -29,6 +29,10 @@ const target = {
   y: 500,
   size: 25,
   fill: "#FFC0CB",
+  fills: {
+    noOverlap: "#FFC0CB", // red for no overlap
+    overlap: "#00ff00", // green for overlap
+  },
 };
 /**
  * Create the canvas
@@ -55,6 +59,7 @@ function draw() {
 
   //target//
   drawTarget();
+  checkTarget();
 }
 
 /**
@@ -102,4 +107,15 @@ function drawPuck() {
   fill(puck.fill);
   ellipse(puck.x, puck.y, puck.size);
   pop();
+}
+
+function checkTarget() {
+  const d = dist(user.x, user.y, target.x, target.y);
+  const overlap = d < user.size / 2 + target.size / 2;
+  // Set fill based on whether they overlap
+  if (overlap) {
+    target.fill = target.fills.overlap;
+  } else {
+    target.fill = target.fills.noOverlap;
+  }
 }
