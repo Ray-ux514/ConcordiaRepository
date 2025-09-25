@@ -12,7 +12,7 @@ const puck = {
   size: 100,
   fill: "#ff0000",
   fills: {
-    noOverlap: "#ff0000", // red for no overlap
+    noOverlap: "#ff0000",
     overlap: "#00ff00", // green for overlap
   },
 };
@@ -74,9 +74,12 @@ function movePuck() {
   const overlap = d < user.size / 2 + puck.size / 2;
   // Set fill based on whether they overlap
   if (overlap) {
-    puck.fill = puck.fills.overlap;
-  } else {
-    puck.fill = puck.fills.noOverlap;
+    if (user.x < puck.x) {
+      puck.x += 2;
+    }
+    if (user.y > puck.y) {
+      puck.y += 2;
+    }
   }
 }
 
