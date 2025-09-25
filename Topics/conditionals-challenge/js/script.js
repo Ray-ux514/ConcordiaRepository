@@ -77,8 +77,15 @@ function movePuck() {
     if (user.x < puck.x) {
       puck.x += 2;
     }
-    if (user.y > puck.y) {
+
+    if (user.x > puck.x) {
+      puck.x -= 2;
+    }
+    if (user.y < puck.y) {
       puck.y += 2;
+    }
+    if (user.y > puck.y) {
+      puck.y -= 2;
     }
   }
 }
