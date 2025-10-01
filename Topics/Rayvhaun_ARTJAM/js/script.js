@@ -23,7 +23,7 @@ function draw() {
   push(); //
   fill(126, 84, 34); // Skin tone
   noStroke();
-  ellipse(300, 300, 350, 350); // Face oval
+  ellipse(300, 300, 350, 365); // Face oval
   pop();
 
   //ears//
@@ -55,6 +55,8 @@ function draw() {
   pop();
 
   push();
-  fill(56, 35, 14); // brown
-  arc(300, 300, 350, 350, PI, TWO_PI, CHORD);
+  fill(17, 11, 4); // brown
+  noStroke();
+  arc(300, 300, 350, 365, PI, TWO_PI, CHORD);
+  pop();
 }
