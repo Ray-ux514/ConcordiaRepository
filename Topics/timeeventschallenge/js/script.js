@@ -55,7 +55,7 @@ window.addEventListener("mousedown", function () {
 function displayUI() {
   if (gameOver) {
     push();
-    textSize(48);
+    textSize(8);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
     text("You lose!", width / 2, height / 3);
