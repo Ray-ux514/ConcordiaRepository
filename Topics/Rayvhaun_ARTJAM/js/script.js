@@ -20,92 +20,75 @@ function setup() {
  */
 function draw() {
   background("#aaaaaa");
+
+  //ears//
   push(); //
-  fill(126, 84, 34); // Skin tone
-  noStroke();
-  ellipse(300, 300, 350, 365); // Face oval
+  fill(126, 79, 33); // Skin tone
+  stroke(35, 31, 3); // Outline color (dark brown)
+  strokeWeight(15);
+  ellipse(100, 330, 85, 85); // Face oval
   pop();
 
   //ears//
   push(); //
-  fill(126, 84, 34); // Skin tone
-  noStroke();
-  ellipse(120, 310, 50, 55); // Face oval
+  fill(126, 79, 33); // Skin tone
+  stroke(35, 31, 3); // Outline color (dark brown)
+  strokeWeight(15);
+  ellipse(500, 330, 85, 85); // Face oval
+  pop();
+
+  // face//
+  fill(126, 79, 33); // Skin tone
+  stroke(35, 31, 3); // Outline color (dark brown)
+  strokeWeight(15); // Outline thickness
+  ellipse(300, 300, 380, 380); // Face oval
+  pop();
+
+  //hair//
+  push();
+  stroke(35, 31, 3); // Outline color (dark brown)
+  strokeWeight(10);
+  fill(35, 31, 32); // Skin tone
+  arc(300, 300, 380, 380, PI, TWO_PI, CHORD);
   pop();
 
   //earigns//
   push(); //
-  fill(230, 247, 252); //ear colour//
+  fill(206, 235, 241); //ear colour//
   noStroke();
-  ellipse(118, 335, 15, 15); // Face oval
+  ellipse(100, 372, 20, 20); // Face oval
   pop();
 
-  //ears//
   push(); //
-  fill(126, 84, 34); // Skin tone
+  fill(255, 255, 255); //ear colour//
   noStroke();
-  ellipse(480, 310, 50, 55); // Face oval
+  ellipse(100, 372, 14, 14); // Face oval
   pop();
 
   //earigns//
   push(); //
-  fill(230, 247, 252); //ear colour//
+  fill(206, 235, 241); //ear colour//
   noStroke();
-  ellipse(482, 335, 12, 12); // Face oval
+  ellipse(500, 372, 20, 20); // Face oval
+  pop();
+
+  push(); //
+  fill(255, 255, 255); //ear colour//
+  noStroke();
+  ellipse(500, 372, 14, 14); // Face oval
   pop();
 
   push();
-  fill(17, 11, 4); // brown
   noStroke();
-  arc(300, 300, 350, 365, PI, TWO_PI, CHORD);
+  fill(126, 79, 33); // brown hair
+  rect(150, 253, 300, 80);
   pop();
 
-  push();
-  noStroke();
-  fill(126, 84, 34); // brown hair
-  rect(125, 280, 350, 30);
-  pop();
-  //hairline//
-  push();
-  noStroke();
-  fill(126, 84, 34); // brown hair
-  rect(160, 240, 285, 40);
-  pop();
-
-  //goatee//
+  //beard//
   push(); //
-  fill(17, 11, 4); // Skin tone
-  noStroke();
-  ellipse(330, 479, 14, 14); // Face oval
-  pop();
-
-  push();
-  fill(17, 11, 4); // Skin tone
-  noStroke();
-  ellipse(300, 479, 14, 14); // Face oval
-  pop();
-
-  push(); //
-  fill(17, 11, 4); // Skin tone
-  noStroke();
-  ellipse(295, 479, 14, 14); // Face oval
-  pop();
-
-  push(); //
-  fill(17, 11, 4); // Skin tone
-  noStroke();
-  ellipse(307, 486, 14, 14); // Face oval
-  pop();
-
-  push(); //
-  fill(17, 11, 4); // Skin tone
-  noStroke();
-  ellipse(308, 479, 14, 14); // Face oval
-  pop();
-
-  push(); //
-  fill(17, 11, 4); // Skin tone
-  noStroke();
-  ellipse(295, 490, 14, 14); // Face oval
+  stroke(35, 31, 3); // Outline color (dark brown)
+  strokeWeight(0); // Outline thickness
+  fill(35, 31, 3); // brown hair
+  ellipse(300, 475, 120, 40);
   pop();
 }
