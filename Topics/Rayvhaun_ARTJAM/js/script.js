@@ -38,6 +38,7 @@ function draw() {
   pop();
 
   // face//
+  push();
   fill(126, 79, 33); // Skin tone
   stroke(35, 31, 3); // Outline color (dark brown)
   strokeWeight(15); // Outline thickness
@@ -81,7 +82,51 @@ function draw() {
   push();
   noStroke();
   fill(126, 79, 33); // brown hair
-  rect(150, 253, 300, 80);
+  rect(150, 240, 300, 90);
+  pop();
+
+  // eyebrows//
+  push();
+  noStroke();
+  fill(35, 31, 3); // brown hair
+  translate(225, 310); // move to where you want the rectangle
+  rotate(radians(7)); // slight rotation (5 degrees)
+  rectMode(CENTER); // draw from center for even rotation
+  rect(0, 0, 105, 15); // rectangle at the new origin
+  pop();
+  push();
+
+  noStroke();
+  fill(35, 31, 3, 70); // brown hair
+  translate(265, 330); // move to where you want the rectangle
+  rotate(radians(7)); // slight rotation (5 degrees)
+  rectMode(CENTER); // draw from center for even rotation
+  rect(0, 0, 17, 5); // rectangle at the new origin
+  pop();
+
+  push();
+  noStroke();
+  fill(35, 31, 3); // brown hair
+  translate(380, 310); // move to where you want the rectangle
+  rotate(radians(173)); // slight rotation (5 degrees)
+  rectMode(CENTER); // draw from center for even rotation
+  rect(0, 0, 105, 15); // rectangle at the new origin
+  pop();
+
+  push();
+  noStroke();
+  fill(35, 31, 3, 70); // brown hair
+  translate(340, 330); // move to where you want the rectangle
+  rotate(radians(173)); // slight rotation (5 degrees)
+  rectMode(CENTER); // draw from center for even rotation
+  rect(0, 0, 17, 5); // rectangle at the new origin
+  pop();
+
+  //eyes//
+  push();
+  noStroke();
+  fill(0, 0, 0); // Skin tone
+  arc(230, 270, 180, 180, PI, TWO_PI, CHORD);
   pop();
 
   //beard//
@@ -89,6 +134,16 @@ function draw() {
   stroke(35, 31, 3); // Outline color (dark brown)
   strokeWeight(0); // Outline thickness
   fill(35, 31, 3); // brown hair
-  ellipse(300, 475, 120, 40);
+  ellipse(300, 480, 90, 30);
+  pop();
+
+  //mouth//
+  push();
+  noStroke();
+  fill(35, 31, 3); // brown hair
+  translate(300, 430); // move to where you want the rectangle
+  rotate(radians(175)); // slight rotation (5 degrees)
+  rectMode(CENTER); // draw from center for even rotation
+  rect(0, 0, 85, 14); // rectangle at the new origin
   pop();
 }
