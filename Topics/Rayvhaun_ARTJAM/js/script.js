@@ -6,7 +6,7 @@ const leftEye = {
   y: 340,
   w: 70,
   h: 60,
-  moveRange: 10, // how much the pupil slides
+  moveRange: 8, // how much the pupil slides
 };
 
 const rightEye = {
@@ -14,7 +14,7 @@ const rightEye = {
   y: 340,
   w: 70,
   h: 60,
-  moveRange: 10,
+  moveRange: 8,
 };
 
 let leftBrowAngle = 10;
@@ -62,7 +62,7 @@ function drawFace() {
 function drawHair() {
   push();
   stroke(35, 31, 3);
-  strokeWeight(10);
+  strokeWeight(15);
   fill(35, 31, 32);
   arc(300, 300, 380, 380, PI, TWO_PI, CHORD);
   pop();
@@ -80,7 +80,7 @@ function drawEarrings() {
   fill(206, 235, 241);
   ellipse(100, 372, 20, 20);
   ellipse(500, 372, 20, 20);
-  fill(255);
+  fill(mouseX, mouseY);
   ellipse(100, 372, 14, 14);
   ellipse(500, 372, 14, 14);
   pop();
