@@ -17,6 +17,12 @@ const rightEye = {
   moveRange: 8,
 };
 
+let leftBrowAngle = 10;
+let rightBrowAngle = 170;
+let eyebrowAnimating = false;
+let eyebrowDirection = 1;
+let eyebrowProgress = 0;
+
 // === Base drawing ===
 function setup() {
   createCanvas(600, 600);
@@ -33,6 +39,8 @@ function draw() {
   drawEyes(); // whites + arcs + pupils (with movement)
   drawBeard();
   drawMouth();
+
+  updateEyebrows();
 }
 
 // === Helper draw functions ===
@@ -128,7 +136,25 @@ function drawRotRect(x, y, w, h, angleDeg) {
   rect(0, 0, w, h);
   pop();
 }
+function updateEyebrows() {
+  if (eyebrowAnimating) {
+    eyebrowProgress += eyebrowDirection;
 
+    // Rotate out
+    if (eyebrowDirection === 1 && eyebrowProgress >= 10) {
+      eyebrowDirection = -1; // start returning
+    }
+
+    // Rotate back
+    if (eyebrowDirection === -1 && eyebrowProgress <= 0) {
+      eyebrowAnimating = false; // stop once returned
+      eyebrowDirection = 1; // reset for next click
+    }
+
+    leftBrowAngle = 10 + eyebrowProgress * 0.5;
+    rightBrowAngle = 170 - eyebrowProgress * 0.5;
+  }
+}
 // === Eyes (with movement) ===
 function drawEyes() {
   // Whites
