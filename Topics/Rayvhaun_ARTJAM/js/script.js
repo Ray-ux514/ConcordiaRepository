@@ -17,10 +17,6 @@ const rightEye = {
   moveRange: 8,
 };
 
-let leftBrowAngle = 10;
-let rightBrowAngle = 170;
-let rotateBrow = false;
-
 // === Base drawing ===
 function setup() {
   createCanvas(600, 600);
@@ -90,11 +86,37 @@ function drawEyebrows() {
   push();
   noStroke();
   fill(35, 31, 3);
-  drawRotRect(230, 310, 100, 15, 10);
-  drawRotRect(375, 310, 100, 15, 170);
+  translate(230, 310);
+  rotate(radians(10));
+  rectMode(CENTER);
+  rect(0, 0, 100, 15);
+  pop();
+  //eye shawdow//
+  push();
+  noStroke();
   fill(35, 31, 3, 70);
-  drawRotRect(265, 330, 22, 5, 10);
-  drawRotRect(340, 330, 22, 5, 170);
+  translate(265, 330);
+  rotate(radians(10));
+  rectMode(CENTER);
+  rect(0, 0, 22, 5);
+  pop();
+
+  push();
+  noStroke();
+  fill(35, 31, 3);
+  translate(375, 310);
+  rotate(radians(170));
+  rectMode(CENTER);
+  rect(0, 0, 100, 15);
+  pop();
+  //eye shadow//
+  push();
+  noStroke();
+  fill(35, 31, 3, 70);
+  translate(340, 330);
+  rotate(radians(170));
+  rectMode(CENTER);
+  rect(0, 0, 22, 5);
   pop();
 }
 
