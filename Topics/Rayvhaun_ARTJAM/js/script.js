@@ -139,6 +139,13 @@ function drawEyes() {
   arc(375, 340, 95, 85, 0, PI, CHORD);
   pop();
 
+  push();
+  noStroke();
+  fill(0, 0, 0, 45);
+  arc(230, 340, 85, 75, 0, PI, CHORD);
+  arc(375, 340, 85, 75, 0, PI, CHORD);
+  pop();
+
   // Eye arcs / lashes
   push();
   stroke(35, 31, 3, 70);
