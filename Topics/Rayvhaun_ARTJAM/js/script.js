@@ -91,38 +91,42 @@ function drawEarrings() {
 }
 
 function drawEyebrows() {
+  // Left eyebrow
   push();
   noStroke();
   fill(35, 31, 3);
   translate(230, 310);
-  rotate(radians(10));
+  rotate(radians(leftBrowAngle));
   rectMode(CENTER);
   rect(0, 0, 100, 15);
   pop();
-  //eye shawdow//
+
+  // Left brow shadow
   push();
   noStroke();
   fill(35, 31, 3, 70);
   translate(265, 330);
-  rotate(radians(10));
+  rotate(radians(leftBrowAngle));
   rectMode(CENTER);
   rect(0, 0, 22, 5);
   pop();
 
+  // Right eyebrow
   push();
   noStroke();
   fill(35, 31, 3);
   translate(375, 310);
-  rotate(radians(170));
+  rotate(radians(rightBrowAngle));
   rectMode(CENTER);
   rect(0, 0, 100, 15);
   pop();
-  //eye shadow//
+
+  // Right brow shadow
   push();
   noStroke();
   fill(35, 31, 3, 70);
   translate(340, 330);
-  rotate(radians(170));
+  rotate(radians(rightBrowAngle));
   rectMode(CENTER);
   rect(0, 0, 22, 5);
   pop();
@@ -214,4 +218,7 @@ function drawMouth() {
   rectMode(CENTER);
   rect(0, 0, 85, 14);
   pop();
+}
+function mousePressed() {
+  eyebrowAnimating = true;
 }
