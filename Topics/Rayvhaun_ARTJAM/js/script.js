@@ -155,8 +155,8 @@ function updateEyebrows() {
       eyebrowDirection = 1; // reset for next click
     }
 
-    leftBrowAngle = 10 + eyebrowProgress * 0.5;
-    rightBrowAngle = 170 - eyebrowProgress * 0.5;
+    leftBrowAngle = 10 + eyebrowProgress * 1.5;
+    rightBrowAngle = 170 - eyebrowProgress * 1.5;
   }
 }
 // === Eyes (with movement) ===
