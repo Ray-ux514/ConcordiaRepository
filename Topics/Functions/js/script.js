@@ -137,6 +137,9 @@ function moveBall() {
 function handleBounce(ball, paddle) {
   if (checkOverlap(ball, paddle)) ball.velocity.y *= -1;
 }
+function handleBounce(ball, rectB) {
+  if (checkOverlap(ball, rectB)) ball.velocity.y *= -1;
+}
 function moveBall2() {
   ball2.x += ball2.velocity.x;
   ball2.y += ball2.velocity.y;
