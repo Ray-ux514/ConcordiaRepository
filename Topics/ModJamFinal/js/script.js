@@ -177,7 +177,14 @@ function drawMenu() {
   );
   pop();
 }
+// next draw instructions//
+//background
+//text
+//add button
+//add title
+//and lily pad
 
+//  else if (gameState === "instructions"){showInstructions();
 function drawGame() {
   background("#06464a");
   moveFly();
