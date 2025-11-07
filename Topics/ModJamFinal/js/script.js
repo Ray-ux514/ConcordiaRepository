@@ -480,9 +480,6 @@ function mouseHover() {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
-  if (frog.tongue.state === "idle") {
-    frog.tongue.state = "outbound";
-  }
   if (state === "menu") {
     // Click Start
     if (
@@ -522,7 +519,7 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  if (key === "SPACE") frog.tongue.state === "idle";
-  frog.tongue.state = "outbound";
-  console.log;
+  if (key === " " && frog.tongue.state === "idle") {
+    frog.tongue.state = "outbound";
+  }
 }
