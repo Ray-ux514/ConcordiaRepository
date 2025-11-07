@@ -17,6 +17,11 @@
 
 let state = "menu";
 
+let totalBugs = 6; // total bugs to catch
+let bugsCaught = 0; // current number of bugs caught
+let barX, barY, barWidth, barHeight;
+let gameWon = false;
+
 //images
 let lily1;
 let lotus;
@@ -363,6 +368,8 @@ function drawFrog() {
   ellipse(frog.body.x, frog.body.y, frog.body.size);
   pop();
 }
+
+function drawProgressBar() {}
 
 /**
  * Handles the tongue overlapping the fly
