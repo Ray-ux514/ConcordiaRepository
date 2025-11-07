@@ -19,7 +19,6 @@ let state = "menu";
 
 let totalBugs = 6; // total bugs to catch
 let bugsCaught = 0; // current number of bugs caught
-let barX, barY, barWidth, barHeight;
 let gameWon = false;
 
 //images
@@ -88,6 +87,13 @@ const backbutton = {
   color: "rgba(255,255,255,0)",
 };
 
+const bar = {
+  barX: 850 / 2 - 300,
+  barY: 30,
+  barWidth: 600,
+  barHeight: 30,
+};
+
 // Our fly
 // Has a position, size, and speed of horizontal movement
 const fly = {
@@ -96,6 +102,7 @@ const fly = {
   size: 10,
   speed: 3,
 };
+
 //Score
 let score = 0;
 
@@ -141,6 +148,7 @@ function draw() {
     mouseHover();
     drawMenu();
   } else if (state === "game") {
+    drawProgressBar();
     drawGame();
   } else if (state === "instructions") {
     drawInstructions();
@@ -369,24 +377,59 @@ function drawFrog() {
   pop();
 }
 
-function drawProgressBar() {}
+function drawProgressBar() {
+  // Outer bar
+  noStroke();
+  fill("#C34254");
+  rect(bar.x, bar.y, bar.w, bar.h, 30);
+
+  // Fill progress
+  let progress = map(bugsCaught, 0, totalBugs, 0, bar.w);
+  fill("#FFE2A8");
+  rect(bar.x, bar.y, progress, bar.h, 30);
+
+  // Optional: text above bar
+  fill("#ffffff");
+  textSize(16);
+  textAlign(CENTER);
+  text(`Flies Eaten: ${bugsCaught}/${totalBugs}`, width / 2, bar.y - 10);
+}
 
 /**
  * Handles the tongue overlapping the fly
  */
 function checkTongueFlyOverlap() {
-  // Get distance from tongue to fly
   const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-  // Check if it's an overlap
   const eaten = d < frog.tongue.size / 2 + fly.size / 2;
+
   if (eaten) {
-    //adds score
+    // adds score and fly count
     score++;
+    bugsCaught++;
+
     // Reset the fly
     resetFly();
+
     // Bring back the tongue
     frog.tongue.state = "inbound";
+
+    // Check win condition
+    if (bugsCaught >= totalBugs) {
+      bugsCaught = totalBugs;
+      gameWon = true;
+      state = "win";
+    }
   }
+}
+function drawWin() {
+  background("#06464a");
+  fill("#ffffff");
+  textAlign(CENTER, CENTER);
+  textFont(font1);
+  textSize(40);
+  text("YOU WIN! 🐸✨", width / 2, height / 2 - 20);
+  textSize(20);
+  text("Click to return to the menu", width / 2, height / 2 + 40);
 }
 //hover
 function mouseHover() {
