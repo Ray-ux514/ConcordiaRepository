@@ -16,10 +16,12 @@
 "use strict";
 
 let state = "menu";
+let animatedProgress = 0;
 
 let totalBugs = 6; // total bugs to catch
 let bugsCaught = 0; // current number of bugs caught
 let gameWon = false;
+let bar = [];
 
 //images
 let lily1;
@@ -87,13 +89,6 @@ const backbutton = {
   color: "rgba(255,255,255,0)",
 };
 
-const bar = {
-  barX: 850 / 2 - 300,
-  barY: 30,
-  barWidth: 600,
-  barHeight: 30,
-};
-
 // Our fly
 // Has a position, size, and speed of horizontal movement
 const fly = {
@@ -139,6 +134,13 @@ function setup() {
   instructionsCurrent = instructionsDefault;
   backbuttonCurrent = backbuttondefault;
 
+  bar = {
+    x: width / 2 - 300,
+    y: 30,
+    w: 600,
+    h: 40,
+  };
+
   // Give the fly its first random position
   resetFly();
 }
@@ -148,11 +150,13 @@ function draw() {
     mouseHover();
     drawMenu();
   } else if (state === "game") {
-    drawProgressBar();
     drawGame();
+    drawProgressBar();
   } else if (state === "instructions") {
     drawInstructions();
     mouseHover();
+  } else if (state === "win") {
+    drawWin();
   }
 }
 
@@ -278,7 +282,7 @@ function drawGame() {
   moveTongue();
   drawFrog();
   checkTongueFlyOverlap();
-  drawScore();
+  drawProgressBar();
 }
 /**
  * Moves the fly according to its speed
@@ -379,20 +383,24 @@ function drawFrog() {
 
 function drawProgressBar() {
   // Outer bar
-  noStroke();
-  fill("#C34254");
+  push();
+  stroke("#ce2a4d");
+  strokeWeight(12);
+  fill("#ce2a4d");
   rect(bar.x, bar.y, bar.w, bar.h, 30);
+  pop();
 
   // Fill progress
   let progress = map(bugsCaught, 0, totalBugs, 0, bar.w);
-  fill("#FFE2A8");
-  rect(bar.x, bar.y, progress, bar.h, 30);
+
+  // Smoothly move toward target
+  animatedProgress = lerp(animatedProgress, progress, 0.1);
+
+  noStroke();
+  fill("##ffffff");
+  rect(bar.x, bar.y, animatedProgress, bar.h, 30);
 
   // Optional: text above bar
-  fill("#ffffff");
-  textSize(16);
-  textAlign(CENTER);
-  text(`Flies Eaten: ${bugsCaught}/${totalBugs}`, width / 2, bar.y - 10);
 }
 
 /**
@@ -505,4 +513,16 @@ function mousePressed() {
       state = "menu";
     }
   }
+  if (state === "win") {
+    bugsCaught = 0;
+    score = 0;
+    gameWon = false;
+    state = "menu";
+  }
+}
+
+function keyPressed() {
+  if (key === "SPACE") frog.tongue.state === "idle";
+  frog.tongue.state = "outbound";
+  console.log;
 }
