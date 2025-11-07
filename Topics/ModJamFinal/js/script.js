@@ -35,6 +35,7 @@ let font2;
 let lily2;
 let lily3;
 let lily4;
+let frogImg;
 
 let startbuttonImg;
 let startbuttonHoverImg;
@@ -47,21 +48,15 @@ let backbuttonhover;
 let backbuttonCurrent;
 
 // Our frog
-const frog = {
-  // The frog's body has a position and size
-  body: {
-    x: 320,
-    y: 520,
-    size: 150,
-  },
-  // The frog's tongue has a position, size, speed, and state
+let frog = {
+  body: { x: 300, y: 480, size: 150 },
   tongue: {
-    x: undefined,
-    y: 480,
-    size: 20,
-    speed: 20,
-    // Determines how the tongue moves each frame
-    state: "idle", // State can be: idle, outbound, inbound
+    x: 300,
+    y: 450,
+    size: 10,
+    speed: 15,
+    state: "idle",
+    offsetY: -30, // mouth offset so the tongue starts from the frog's mouth
   },
 };
 
@@ -111,6 +106,8 @@ fly.speed = 3 + score * 0.2;
 function preload() {
   lily1 = loadImage("assets/images/lily.png");
   frog1 = loadImage("assets/images/frog1.png");
+  frogImg = loadImage("assets/images/frog.png");
+
   lotus1 = loadImage("assets/images/lotus1.png");
   lotus1shadow = loadImage("assets/images/lotus1shadow.png");
   lotus2shadow = loadImage("assets/images/lotus2shadow.png");
@@ -162,7 +159,7 @@ function draw() {
 
 function drawMenu() {
   background("#06464a");
-  image(lily1, 250, 175, 342, 161);
+  image(lily1, 264, 175, 342, 161);
   push();
   image(frog1, -8, 330 + sin(frameCount * 0.04) * 3, 218, 108);
   pop();
@@ -276,13 +273,66 @@ function drawInstructions() {
 //  else if (gameState === "instructions"){showInstructions();
 function drawGame() {
   background("#06464a");
+  drawProgressBar();
+
+  drawEnvironment();
   moveFly();
   drawFly();
   moveFrog();
   moveTongue();
   drawFrog();
   checkTongueFlyOverlap();
-  drawProgressBar();
+
+  //see the last
+}
+function drawFrog() {
+  // Calculate mouth position (start of tongue)
+  let mouthX = frog.body.x;
+  let mouthY = frog.body.y + frog.tongue.offsetY;
+
+  // Tongue movement and drawing
+  push();
+  stroke("#ff0000");
+  strokeWeight(frog.tongue.size / 2);
+  line(mouthX, mouthY, frog.tongue.x, frog.tongue.y);
+  fill("#ff0000");
+  noStroke();
+  ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
+  pop();
+
+  // Frog image
+  push();
+  imageMode(CENTER);
+  image(frogImg, frog.body.x, frog.body.y, frog.body.size, frog.body.size);
+  pop();
+}
+function drawEnvironment() {
+  // background color
+  //lily1
+
+  //frog decoration (if you want it to stay here too)
+  push();
+  image(lily4, 38, 325, 208, 100);
+  pop();
+
+  push();
+  image(lily1, 295, 230 + sin(frameCount * 0.04) * 3, 275, 130);
+  pop();
+
+  // lotus1
+  push();
+  image(lotus1, 46, 170 + sin(frameCount * 0.03) * 3, 55, 50);
+  pop();
+
+  push();
+  image(lotus1shadow, 35, 220, 75, 53);
+  pop();
+
+  // lily2
+  image(lily2, 618, 325, 190, 110);
+
+  // lily3
+  image(lily3, 335, 380 + sin(frameCount * 0.03) * 3, 180, 100);
 }
 /**
  * Moves the fly according to its speed
@@ -348,8 +398,9 @@ function moveTongue() {
   // If the tongue is inbound, it moves down
   else if (frog.tongue.state === "inbound") {
     frog.tongue.y += frog.tongue.speed;
-    // The tongue stops if it hits the bottom
-    if (frog.tongue.y >= height) {
+    // Reset when back to mouth
+    if (frog.tongue.y >= frog.body.y + frog.tongue.offsetY) {
+      frog.tongue.y = frog.body.y + frog.tongue.offsetY;
       frog.tongue.state = "idle";
     }
   }
@@ -358,50 +409,6 @@ function moveTongue() {
 /**
  * Displays the tongue (tip and line connection) and the frog (body)
  */
-function drawFrog() {
-  // Draw the tongue tip
-  push();
-  fill("#ff0000");
-  noStroke();
-  ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
-  pop();
-
-  // Draw the rest of the tongue
-  push();
-  stroke("#ff0000");
-  strokeWeight(frog.tongue.size);
-  line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
-  pop();
-
-  // Draw the frog's body
-  push();
-  fill("#00ff00");
-  noStroke();
-  ellipse(frog.body.x, frog.body.y, frog.body.size);
-  pop();
-}
-
-function drawProgressBar() {
-  // Outer bar
-  push();
-  stroke("#ce2a4d");
-  strokeWeight(12);
-  fill("#ce2a4d");
-  rect(bar.x, bar.y, bar.w, bar.h, 30);
-  pop();
-
-  // Fill progress
-  let progress = map(bugsCaught, 0, totalBugs, 0, bar.w);
-
-  // Smoothly move toward target
-  animatedProgress = lerp(animatedProgress, progress, 0.1);
-
-  noStroke();
-  fill("##ffffff");
-  rect(bar.x, bar.y, animatedProgress, bar.h, 30);
-
-  // Optional: text above bar
-}
 
 /**
  * Handles the tongue overlapping the fly
@@ -429,6 +436,28 @@ function checkTongueFlyOverlap() {
     }
   }
 }
+function drawProgressBar() {
+  // Outer bar
+  push();
+  stroke("#ce2a4d");
+  strokeWeight(12);
+  fill("#ce2a4d");
+  rect(bar.x, bar.y, bar.w, bar.h, 30);
+  pop();
+
+  // Fill progress
+  let progress = map(bugsCaught, 0, totalBugs, 0, bar.w);
+
+  // Smoothly move toward target
+  animatedProgress = lerp(animatedProgress, progress, 0.1);
+
+  noStroke();
+  fill("##ffffff");
+  rect(bar.x, bar.y, animatedProgress, bar.h, 30);
+
+  // Optional: text above bar
+}
+
 function drawWin() {
   background("#06464a");
   fill("#ffffff");
