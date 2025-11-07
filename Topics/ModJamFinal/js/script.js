@@ -23,6 +23,7 @@ let lotus;
 let frog1;
 let lotus1;
 let lotus1shadow;
+let lotus2shadow;
 let font1;
 let font2;
 let lily2;
@@ -105,6 +106,8 @@ function preload() {
   frog1 = loadImage("assets/images/frog1.png");
   lotus1 = loadImage("assets/images/lotus1.png");
   lotus1shadow = loadImage("assets/images/lotus1shadow.png");
+  lotus2shadow = loadImage("assets/images/lotus2shadow.png");
+
   font1 = loadFont("assets/fonts/ABCMaxiPlusVariable-Trial.ttf");
   font2 = loadFont("assets/fonts/ABCGinto-Regular-Trial.otf");
   lily2 = loadImage("assets/images/lily2.png");
@@ -207,7 +210,7 @@ function drawInstructions() {
   textFont(font1);
   textSize(32);
   fill("#ffffff");
-  text("Instructions", 40, 50);
+  text("INSTRUCTIONS", 40, 50);
 
   textSize(20);
   textFont(font2);
@@ -221,12 +224,16 @@ function drawInstructions() {
   );
   //flower
   push();
-  image(lily4, 410, 246 + sin(frameCount * 0.03) * 3, 410, 190);
+  image(lily4, 380, 290 + sin(frameCount * 0.03) * 3, 410, 190);
   pop();
 
   //lotus
   push();
-  image(lotus1, 46, 170 + sin(frameCount * 0.03) * 3, 65, 60);
+  image(lotus1, 770, 230, 55, 50);
+  pop();
+
+  push();
+  image(lotus2shadow, 770, 280, 52, 32);
   pop();
 
   //backbutton
