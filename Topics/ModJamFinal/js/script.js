@@ -26,6 +26,7 @@ let lotus1shadow;
 let font1;
 let lily2;
 let lily3;
+let lily4;
 let startbuttonImg;
 let startbuttonHoverImg;
 let startbuttonCurrent;
@@ -53,7 +54,7 @@ const frog = {
 };
 
 const startbuttonR = {
-  x: 255,
+  x: 260,
   y: 370,
   width: 150,
   height: 50,
@@ -61,7 +62,7 @@ const startbuttonR = {
 };
 
 const instructionsButton = {
-  x: 445,
+  x: 440,
   y: 370,
   width: 150,
   height: 50,
@@ -94,6 +95,7 @@ function preload() {
   font1 = loadFont("assets/fonts/ABCMaxiPlusVariable-Trial.ttf");
   lily2 = loadImage("assets/images/lily2.png");
   lily3 = loadImage("assets/images/lily3.png");
+  lily4 = loadImage("assets/images/lily4.png");
 
   startbuttonImg = loadImage("assets/images/start_default.png");
   startbuttonHoverImg = loadImage("assets/images/start_hover.png");
@@ -115,6 +117,8 @@ function draw() {
     drawMenu();
   } else if (state === "game") {
     drawGame();
+  } else if (state === "instructions") {
+    drawInstructions();
   }
 }
 
@@ -137,7 +141,7 @@ function drawMenu() {
   // title
   textAlign(CENTER, CENTER); // center your text
   textFont(font1);
-  textSize(32);
+  textSize(36);
   fill("#ffffff");
   text("CATCHING BUGS", width / 2, 100);
 
@@ -175,6 +179,29 @@ function drawMenu() {
     instructionsButton.width,
     instructionsButton.height
   );
+  pop();
+}
+function drawInstructions() {
+  background("#06464a");
+
+  textAlign(LEFT);
+  textFont(font1);
+  textSize(32);
+  fill("#ffffff");
+  text("Instructions", 40, 50);
+
+  textSize(23);
+  textWrap(WORD);
+  text(
+    " In Catching Flies, use your mouse to move and click the space bar to catch the flies with your tongue. You can also jump between lily pads by clicking on them with your mouse." +
+      "if ever you want to give up click T",
+    40,
+    100,
+    350
+  );
+
+  push();
+  image(lily4, 410, 246 + sin(frameCount * 0.03) * 3, 410, 190);
   pop();
 }
 // next draw instructions//
@@ -351,6 +378,15 @@ function mousePressed() {
       mouseY < startbuttonR.y + startbuttonR.height
     ) {
       state = "game";
+    }
+
+    if (
+      mouseX > instructionsButton.x &&
+      mouseX < instructionsButton.x + instructionsButton.width &&
+      mouseY > instructionsButton.y &&
+      mouseY < instructionsButton.y + instructionsButton.height
+    ) {
+      state = "instructions";
     }
   }
 }
