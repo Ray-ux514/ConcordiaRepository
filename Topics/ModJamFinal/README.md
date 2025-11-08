@@ -1,8 +1,15 @@
-# Frogfrogfrog
+# Catching Flies
 
 A game about catching flies.
 
-[Play it!](https://pippinbarr.github.io/cart253-examples/topics/making/frogfrogfrog/index.html)
+- Changed the visuals created and inserted my own visuals
+- Added a title screen **A title and instructions screen.**
+- Added a progress bar that progresses as the user eats flies **An ending**
+- Changed flie path and direction & added more reandom flies **New kinds of fly movement**
+- Added an Instuctions state that informs the user the controls and goal of the game **New visual and/or audio effects**
+- Made it possible for the user to jump on lily pads to better capture flies
+
+[Play it!](https://ray-ux514.github.io/ConcordiaRepository/Topics/ModJamFinal)
 
 - [Ideas](./ideas.md)
 - [Planning](./planning.md)
