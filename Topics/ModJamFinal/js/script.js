@@ -23,6 +23,13 @@ let bugsCaught = 0; // current number of bugs caught
 let gameWon = false;
 let bar = [];
 
+// For frog jumping
+let pads = [];
+let isJumping = false;
+let jumpStart;
+let jumpTarget;
+let jumpProgress = 0;
+
 //images
 let lily1;
 let lotus;
@@ -91,6 +98,10 @@ const fly = {
   y: 200, // Will be random
   size: 10,
   speed: 3,
+  //MOD: defining modes for different movement
+  mode: "straight", // mode can be: straight, sine, jitter
+  baseY: 200,
+  angle: 0,
 };
 
 //Score
@@ -137,6 +148,12 @@ function setup() {
     w: 600,
     h: 40,
   };
+
+  pads = [
+    { x: 150, y: 300 },
+    { x: 400, y: 260 },
+    { x: 650, y: 320 },
+  ];
 
   // Give the fly its first random position
   resetFly();
@@ -274,14 +291,14 @@ function drawInstructions() {
 function drawGame() {
   background("#06464a");
   drawProgressBar();
-
+  checkTongueFlyOverlap();
   drawEnvironment();
   moveFly();
   drawFly();
+  updateFrogJump();
   moveFrog();
   moveTongue();
   drawFrog();
-  checkTongueFlyOverlap();
 
   //see the last
 }
@@ -311,9 +328,6 @@ function drawEnvironment() {
   //lily1
 
   //frog decoration (if you want it to stay here too)
-  push();
-  image(lily4, 38, 325, 208, 100);
-  pop();
 
   push();
   image(lily1, 295, 230 + sin(frameCount * 0.04) * 3, 275, 130);
@@ -328,11 +342,11 @@ function drawEnvironment() {
   image(lotus1shadow, 35, 220, 75, 53);
   pop();
 
-  // lily2
-  image(lily2, 618, 325, 190, 110);
-
-  // lily3
-  image(lily3, 335, 380 + sin(frameCount * 0.03) * 3, 180, 100);
+  for (let p of pads) {
+    noStroke();
+    fill(0, 255, 0, 50);
+    ellipse(p.x, p.y, 100, 40);
+  }
 }
 /**
  * Moves the fly according to its speed
@@ -341,8 +355,16 @@ function drawEnvironment() {
 function moveFly() {
   // Move the fly
   fly.x += fly.speed;
-  // Handle the fly going off the canvas
-  if (fly.x > width) {
+
+  //MOD: Defining all the new modes of movement
+  if (fly.mode === "straight") {
+  }
+  //Referencing mr angry assignement with movement for the fly
+  else if (fly.mode === "sine") {
+    fly.angle += 0.08;
+    fly.y = fly.baseY + sin(fly.angle) * 30;
+  } else if (fly.mode === "jitter") {
+    fly.y += random(-2, 2);
     resetFly();
   }
 }
@@ -366,8 +388,21 @@ function drawScore() {
  * Resets the fly to the left with a random y
  */
 function resetFly() {
-  fly.x = 0;
-  fly.y = random(0, 300);
+  fly.x = -20;
+
+  //MOD: using fly.baseY as reference & same room added as before
+  fly.baseY = random(30, 300);
+  fly.y = fly.baseY;
+
+  //MOD: different speed for each fly
+  fly.speed = random(2, 4);
+
+  //MOD: Angle reset for the sine movement
+  fly.angle = 0;
+
+  //MOD: random picker for movement
+  const modes = ["straight", "sine", "jitter"];
+  fly.mode = random(modes);
 }
 
 /**
@@ -508,6 +543,26 @@ function mouseHover() {
 /**
  * Launch the tongue on click (if it's not launched yet)
  */
+
+function updateFrogJump() {
+  if (isJumping) {
+    jumpProgress += 0.03;
+
+    // Smooth curved motion
+    frog.body.x = lerp(jumpStart.x, jumpTarget.x, jumpProgress);
+    frog.body.y =
+      lerp(jumpStart.y, jumpTarget.y, jumpProgress) -
+      sin(jumpProgress * PI) * 60;
+
+    // End jump
+    if (jumpProgress >= 1) {
+      frog.body.x = jumpTarget.x;
+      frog.body.y = jumpTarget.y;
+      isJumping = false;
+    }
+  }
+}
+
 function mousePressed() {
   if (state === "menu") {
     // Click Start
@@ -544,6 +599,19 @@ function mousePressed() {
     score = 0;
     gameWon = false;
     state = "menu";
+  }
+
+  if (state === "game" && !isJumping) {
+    for (let p of pads) {
+      let d = dist(mouseX, mouseY, p.x, p.y);
+      if (d < 50) {
+        // clicked on pad area
+        jumpStart = { x: frog.body.x, y: frog.body.y };
+        jumpTarget = { x: p.x, y: p.y - 30 }; // land slightly above pad
+        isJumping = true;
+        jumpProgress = 0;
+      }
+    }
   }
 }
 
