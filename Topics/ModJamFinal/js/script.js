@@ -59,6 +59,9 @@ let backbuttondefault;
 let backbuttonhover;
 let backbuttonCurrent;
 
+//sound//
+let gameSound;
+
 // Our frog
 let frog = {
   body: {
@@ -131,6 +134,9 @@ function preload() {
   instructionsHover = loadImage("assets/images/instructions_hover.png");
   backbuttondefault = loadImage("assets/images/backbuttondefault.png");
   backbuttonhover = loadImage("assets/images/backbuttonhover.png");
+
+  //sound//
+  gameSound = loadSound("assets/sounds/gamesound.mp3");
 }
 function setup() {
   createCanvas(850, 500);
@@ -151,6 +157,11 @@ function setup() {
   }
 
   syncTongueToMouth();
+
+  if (!gameSound.isPlaying()) {
+    gameSound.loop(); // loop forever
+    gameSound.setVolume(0.3); // optional: lower volume
+  }
 }
 
 function draw() {
