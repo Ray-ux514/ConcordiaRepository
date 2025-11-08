@@ -23,6 +23,11 @@ let bugsCaught = 0; // current number of bugs caught
 let gameWon = false;
 let bar = [];
 
+// clickable bounds updated each frame
+let bigLilyRect = { x: 285, y: 304, w: 400, h: 180 };
+let lily3Rect = { x: 35, y: 294, w: 210, h: 100 };
+const FROG_LAND_Y_OFFSET = -25; // sit nicely on pads
+
 // For frog jumping
 let isJumping = false;
 let jumpStart;
@@ -55,14 +60,19 @@ let backbuttonCurrent;
 
 // Our frog
 let frog = {
-  body: { x: 300, y: 480, size: 150 },
+  body: {
+    x: 485,
+    y: 394 - 25, // lift up 25 px so frog sits nicely
+    size: 120,
+  },
+
   tongue: {
     x: 300,
     y: 450,
     size: 15,
     speed: 15,
     state: "idle",
-    offsetY: -30, // mouth offset so the tongue starts from the frog's mouth
+    offsetY: -10, // mouth offset so the tongue starts from the frog's mouth
   },
 };
 
@@ -92,22 +102,7 @@ const backbutton = {
 
 // Our fly
 // Has a position, size, and speed of horizontal movement
-const fly = {
-  x: 0,
-  y: 200, // Will be random
-  size: 10,
-  speed: 3,
-  //MOD: defining modes for different movement
-  mode: "straight", // mode can be: straight, sine, jitter
-  baseY: 200,
-  angle: 0,
-};
-
-//Score
-let score = 0;
-
-//diffiulty Progression
-fly.speed = 3 + score * 0.2;
+let flies = [];
 
 /**
  * Creates the canvas and initializes the fly
@@ -147,9 +142,13 @@ function setup() {
     w: 600,
     h: 40,
   };
+  // create multiple flies
+  for (let i = 0; i < 4; i++) {
+    // 4 flies (you can change this to 6, 10, etc.)
+    flies.push(makeFly());
+  }
 
-  // Give the fly its first random position
-  resetFly();
+  syncTongueToMouth();
 }
 
 function draw() {
@@ -285,8 +284,8 @@ function drawGame() {
   drawProgressBar();
   checkTongueFlyOverlap();
   drawEnvironment();
-  moveFly();
-  drawFly();
+  moveFlies();
+  drawFlies();
   updateFrogJump();
   moveFrog();
   moveTongue();
@@ -316,65 +315,109 @@ function drawFrog() {
   pop();
 }
 function drawEnvironment() {
-  // background color
-  //lily1
-
-  //frog decoration (if you want it to stay here too)
-
+  // lily1
   push();
   image(lily1, 595, 180 + sin(frameCount * 0.04) * 3, 180, 85);
   pop();
 
-  // lotus1
+  // lotus1 with shadow
   push();
   image(lotus1, 46, 170 + sin(frameCount * 0.03) * 3, 55, 50);
   pop();
-
   push();
   image(lotus1shadow, 35, 220, 75, 53);
   pop();
 
-  //lotus
+  // lotus on right
   push();
   image(lotus1, 770, 330 + sin(frameCount * 0.03) * 3, 55, 50);
   pop();
-
   push();
   image(lotus2shadow, 770, 380, 52, 32);
   pop();
 
+  // BIG LILY (static) – keep rect synced
+  bigLilyRect = { x: 285, y: 304, w: 400, h: 180 };
   push();
-  image(lily4, 285, 304, 400, 180);
+  image(lily4, bigLilyRect.x, bigLilyRect.y, bigLilyRect.w, bigLilyRect.h);
   image(lily4, 255, 154, 223, 106);
   pop();
 
+  // LILY 3 (bobbing) – update rect.y based on current bob
+  const lily3Y = 294 + sin(frameCount * 0.04) * 3;
+  lily3Rect = { x: 35, y: lily3Y, w: 210, h: 100 };
   push();
-  image(lily3, 35, 294 + sin(frameCount * 0.04) * 3, 210, 100);
+  image(lily3, lily3Rect.x, lily3Rect.y, lily3Rect.w, lily3Rect.h);
   pop();
+
+  textAlign(LEFT, BOTTOM);
+  textFont(font1);
+  textSize(18);
+  fill("#ffffff");
+  text("Press Q to quit", 40, 450);
 }
+function jumpTo(cx, cy) {
+  // Start at current frog position
+  jumpStart = { x: frog.body.x, y: frog.body.y };
+  // Land centered on the pad, nudged up a bit so it “sits” nicely
+  jumpTarget = { x: cx, y: cy + FROG_LAND_Y_OFFSET };
+  isJumping = true;
+  jumpProgress = 0;
+}
+function moveFrog() {}
+
 /**
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
  */
-function moveFly() {
-  // Move the fly
-  fly.x += fly.speed;
-  // Handle the fly going off the canvas
-  if (fly.x > width) {
-    resetFly();
+
+function makeFly() {
+  return {
+    x: -20,
+    y: random(30, 300),
+    size: 10,
+    speed: random(2, 4),
+    mode: random(["straight", "sine", "jitter"]),
+    baseY: random(30, 300),
+    angle: 0,
+  };
+}
+
+function moveFlies() {
+  for (let f of flies) {
+    // horizontal movement
+    f.x += f.speed;
+
+    // movement modes
+    if (f.mode === "straight") {
+      // no change
+    } else if (f.mode === "sine") {
+      f.angle += 0.08;
+      f.y = f.baseY + sin(f.angle) * 30;
+    } else if (f.mode === "jitter") {
+      f.y += random(-2, 2);
+    }
+
+    // offscreen → respawn
+    if (f.x > width + 30) {
+      Object.assign(f, makeFly()); // replaces fields with a new fresh fly
+    }
   }
 }
 
 /**
  * Draws the fly as a black circle
  */
-function drawFly() {
+function drawFlies() {
   push();
   noStroke();
-  fill("#000000");
-  ellipse(fly.x, fly.y, fly.size);
+  fill(0);
+  for (let f of flies) {
+    ellipse(f.x, f.y, f.size);
+  }
   pop();
 }
+
 function drawScore() {
   fill(0);
   textSize(24);
@@ -384,44 +427,58 @@ function drawScore() {
  * Resets the fly to the left with a random y
  */
 function resetFly() {
-  fly.x = 0;
-  fly.y = random(0, 300);
+  // spawn slightly offscreen
+  fly.x = -20;
+
+  // random base height
+  fly.baseY = random(30, 300);
+  fly.y = fly.baseY;
+
+  // random speed
+  fly.speed = random(2, 4);
+
+  // reset sine angle
+  fly.angle = 0;
+
+  // random mode (straight / sine / jitter)
+  const modes = ["straight", "sine", "jitter"];
+  fly.mode = random(modes);
 }
 
 /**
  * Moves the frog to the mouse position on x
  */
-function moveFrog() {
-  frog.body.x = mouseX;
-}
 
 /**
  * Handles moving the tongue based on its state
  */
 function moveTongue() {
-  // Tongue matches the frog's x
+  // Tongue always matches frog's x
   frog.tongue.x = frog.body.x;
-  // If the tongue is idle, it doesn't do anything
+
   if (frog.tongue.state === "idle") {
-    // Do nothing
-  }
-  // If the tongue is outbound, it moves up
-  else if (frog.tongue.state === "outbound") {
-    frog.tongue.y += -frog.tongue.speed;
-    // The tongue bounces back if it hits the top
+    // keep the tip parked at the mouth when not shooting
+    syncTongueToMouth();
+  } else if (frog.tongue.state === "outbound") {
+    frog.tongue.y -= frog.tongue.speed;
     if (frog.tongue.y <= 0) {
       frog.tongue.state = "inbound";
     }
-  }
-  // If the tongue is inbound, it moves down
-  else if (frog.tongue.state === "inbound") {
+  } else if (frog.tongue.state === "inbound") {
     frog.tongue.y += frog.tongue.speed;
-    // Reset when back to mouth
     if (frog.tongue.y >= frog.body.y + frog.tongue.offsetY) {
-      frog.tongue.y = frog.body.y + frog.tongue.offsetY;
+      syncTongueToMouth(); // snap cleanly to mouth
       frog.tongue.state = "idle";
     }
   }
+}
+
+function syncTongueToMouth() {
+  // mouth position
+  const mouthX = frog.body.x;
+  const mouthY = frog.body.y + frog.tongue.offsetY;
+  frog.tongue.x = mouthX;
+  frog.tongue.y = mouthY;
 }
 
 /**
@@ -432,25 +489,23 @@ function moveTongue() {
  * Handles the tongue overlapping the fly
  */
 function checkTongueFlyOverlap() {
-  const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-  const eaten = d < frog.tongue.size / 2 + fly.size / 2;
+  for (let f of flies) {
+    const d = dist(frog.tongue.x, frog.tongue.y, f.x, f.y);
+    if (d < frog.tongue.size / 2 + f.size / 2) {
+      bugsCaught++;
 
-  if (eaten) {
-    // adds score and fly count
-    score++;
-    bugsCaught++;
+      // respawn this fly only
+      Object.assign(f, makeFly());
 
-    // Reset the fly
-    resetFly();
+      // Bring back the tongue
+      frog.tongue.state = "inbound";
 
-    // Bring back the tongue
-    frog.tongue.state = "inbound";
-
-    // Check win condition
-    if (bugsCaught >= totalBugs) {
-      bugsCaught = totalBugs;
-      gameWon = true;
-      state = "win";
+      // Check win condition
+      if (bugsCaught >= totalBugs) {
+        bugsCaught = totalBugs;
+        gameWon = true;
+        state = "win";
+      }
     }
   }
 }
@@ -478,11 +533,13 @@ function drawProgressBar() {
 
 function drawWin() {
   background("#06464a");
-  fill("#ffffff");
+  fill("#ce2a4d");
   textAlign(CENTER, CENTER);
   textFont(font1);
-  textSize(40);
-  text("YOU WIN! 🐸✨", width / 2, height / 2 - 20);
+  textSize(48);
+  text("YOU WIN!", width / 2, height / 2 - 20);
+  fill("#fffff");
+
   textSize(20);
   text("Click to return to the menu", width / 2, height / 2 + 40);
 }
@@ -542,22 +599,30 @@ function updateFrogJump() {
       frog.body.x = jumpTarget.x;
       frog.body.y = jumpTarget.y;
       isJumping = false;
+      syncTongueToMouth(); // keep tongue tip at the mouth after landing
     }
   }
 }
 
 function mousePressed() {
+  // 1) Handle WIN first and stop
+  if (state === "win") {
+    resetGame();
+    state = "menu";
+    return;
+  }
+
   if (state === "menu") {
-    // Click Start
     if (
       mouseX > startbuttonR.x &&
       mouseX < startbuttonR.x + startbuttonR.width &&
       mouseY > startbuttonR.y &&
       mouseY < startbuttonR.y + startbuttonR.height
     ) {
+      resetGame();
       state = "game";
+      return;
     }
-
     if (
       mouseX > instructionsButton.x &&
       mouseX < instructionsButton.x + instructionsButton.width &&
@@ -565,8 +630,10 @@ function mousePressed() {
       mouseY < instructionsButton.y + instructionsButton.height
     ) {
       state = "instructions";
+      return;
     }
   }
+
   if (state === "instructions") {
     if (
       mouseX > backbutton.x &&
@@ -575,31 +642,59 @@ function mousePressed() {
       mouseY < backbutton.y + backbutton.height
     ) {
       state = "menu";
+      return;
     }
-  }
-  if (state === "win") {
-    bugsCaught = 0;
-    score = 0;
-    gameWon = false;
-    state = "menu";
   }
 
   if (state === "game" && !isJumping) {
-    for (let p of pads) {
-      let d = dist(mouseX, mouseY, p.x, p.y);
-      if (d < 50) {
-        // clicked on pad area
-        jumpStart = { x: frog.body.x, y: frog.body.y };
-        jumpTarget = { x: p.x, y: p.y - 30 }; // land slightly above pad
-        isJumping = true;
-        jumpProgress = 0;
-      }
+    // lily3
+    if (
+      mouseX >= lily3Rect.x &&
+      mouseX <= lily3Rect.x + lily3Rect.w &&
+      mouseY >= lily3Rect.y &&
+      mouseY <= lily3Rect.y + lily3Rect.h
+    ) {
+      const cx = lily3Rect.x + lily3Rect.w / 2;
+      const cy = lily3Rect.y + lily3Rect.h / 2;
+      jumpTo(cx, cy);
+      return;
+    }
+    // big lily
+    if (
+      mouseX >= bigLilyRect.x &&
+      mouseX <= bigLilyRect.x + bigLilyRect.w &&
+      mouseY >= bigLilyRect.y &&
+      mouseY <= bigLilyRect.y + bigLilyRect.h
+    ) {
+      const cx = bigLilyRect.x + bigLilyRect.w / 2;
+      const cy = bigLilyRect.y + bigLilyRect.h / 2;
+      jumpTo(cx, cy);
+      return;
     }
   }
 }
 
 function keyPressed() {
-  if (key === " " && frog.tongue.state === "idle") {
+  if (key === "" && frog.tongue.state === "idle") {
     frog.tongue.state = "outbound";
+  } else if (key === "q" && state == "game") {
+    state = "menu";
   }
+}
+function resetGame() {
+  // scores & UI
+  bugsCaught = 0;
+  animatedProgress = 0;
+  gameWon = false;
+
+  // respawn flies fresh
+  flies = [];
+  for (let i = 0; i < 4; i++) flies.push(makeFly());
+
+  // park frog & tongue back on the big lily center
+  const cx = bigLilyRect.x + bigLilyRect.w / 2;
+  const cy = bigLilyRect.y + bigLilyRect.h / 2;
+  frog.body.x = cx;
+  frog.body.y = cy + FROG_LAND_Y_OFFSET;
+  syncTongueToMouth();
 }
