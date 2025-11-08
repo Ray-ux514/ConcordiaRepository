@@ -9,3 +9,4 @@ A game about catching flies.
 - Added an Instuctions state that informs the user the controls and goal of the game **New visual and/or audio effects**
 - Made it possible for the user to jump on lily pads to better capture flies
 - Added a quit option in the game state
+- Adding sounds effects and music

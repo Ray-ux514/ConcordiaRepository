@@ -61,6 +61,7 @@ let backbuttonCurrent;
 
 //sound//
 let gameSound;
+let eatFlySound;
 
 // Our frog
 let frog = {
@@ -113,6 +114,9 @@ let flies = [];
  */
 
 function preload() {
+  //sound//
+  gameSound = loadSound("assets/sounds/gamesound.mp3");
+  eatFlySound = loadSound("assets/sounds/eatfly.mp3");
   //Images and assets
   lily1 = loadImage("assets/images/lily.png");
   frog1 = loadImage("assets/images/frog1.png");
@@ -134,9 +138,6 @@ function preload() {
   instructionsHover = loadImage("assets/images/instructions_hover.png");
   backbuttondefault = loadImage("assets/images/backbuttondefault.png");
   backbuttonhover = loadImage("assets/images/backbuttonhover.png");
-
-  //sound//
-  gameSound = loadSound("assets/sounds/gamesound.mp3");
 }
 function setup() {
   createCanvas(850, 500);
@@ -157,11 +158,6 @@ function setup() {
   }
 
   syncTongueToMouth();
-
-  if (!gameSound.isPlaying()) {
-    gameSound.loop(); // loop forever
-    gameSound.setVolume(0.3); // optional: lower volume
-  }
 }
 
 function draw() {
@@ -235,7 +231,6 @@ function drawMenu() {
     instructionsButton.width,
     instructionsButton.height
   );
-  pop();
 }
 
 function drawInstructions() {
@@ -519,6 +514,9 @@ function checkTongueFlyOverlap() {
     const d = dist(frog.tongue.x, frog.tongue.y, f.x, f.y);
     if (d < frog.tongue.size / 2 + f.size / 2) {
       bugsCaught++;
+      eatFlySound.setVolume(0.1); // lower this sound
+      eatFlySound.play();
+      // play sound effect
 
       // respawn this fly only
       Object.assign(f, makeFly());
@@ -627,6 +625,10 @@ function updateFrogJump() {
 }
 
 function mousePressed() {
+  if (!gameSound.isPlaying()) {
+    gameSound.loop();
+    gameSound.setVolume(0.3);
+  }
   // 1) Handle WIN first and stop
   if (state === "win") {
     resetGame();

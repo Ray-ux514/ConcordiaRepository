@@ -8,6 +8,7 @@ A game about catching flies.
 - Changed flie path and direction & added more reandom flies **New kinds of fly movement**
 - Added an Instuctions state that informs the user the controls and goal of the game **New visual and/or audio effects**
 - Made it possible for the user to jump on lily pads to better capture flies
+- Adding sounds effects and music
 
 [Play it!](https://ray-ux514.github.io/ConcordiaRepository/Topics/ModJamFinal)
 
