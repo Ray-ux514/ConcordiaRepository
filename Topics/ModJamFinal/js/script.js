@@ -26,6 +26,7 @@ let bar = [];
 // clickable bounds updated each frame
 let bigLilyRect = { x: 285, y: 304, w: 400, h: 180 };
 let lily3Rect = { x: 35, y: 294, w: 210, h: 100 };
+let otherlilyRect = { x: 255, y: 154, w: 223, h: 106 };
 const FROG_LAND_Y_OFFSET = -25; // sit nicely on pads
 
 // For frog jumping
@@ -62,8 +63,8 @@ let backbuttonCurrent;
 let frog = {
   body: {
     x: 485,
-    y: 394 - 25, // lift up 25 px so frog sits nicely
-    size: 120,
+    y: 394 - 15, // lift up 25 px so frog sits nicely
+    size: 110,
   },
 
   tongue: {
@@ -94,7 +95,7 @@ const instructionsButton = {
 
 const backbutton = {
   x: 40,
-  y: 370,
+  y: 390,
   width: 90,
   height: 55,
   color: "rgba(255,255,255,0)",
@@ -186,7 +187,7 @@ function drawMenu() {
   textFont(font1);
   textSize(36);
   fill("#ffffff");
-  text("CATCHING BUGS", width / 2, 100);
+  text("CATCHING FLIES", width / 2, 100);
 
   //lily2
   push();
@@ -238,12 +239,13 @@ function drawInstructions() {
   textFont(font2);
   textWrap(WORD);
   text(
-    "In Catching Flies, use your mouse to move and click the space bar to catch the flies with your tongue. You can also jump between lily pads by clicking on them with your mouse." +
-      "if ever you want to give up click T",
+    "Move your frog by clicking on the open lily pads around the pond. Time your jumps carefully, the flies won’t stay in one place for long! When a fly gets close enough, press the Z key to use your tongue and grab it. Each fly you catch brings you closer to victory.\n\n" +
+      "Catch all 6 flies to win the game. Stay quick, stay alert, and good luck!",
     40,
     100,
     350
   );
+
   //flower
   push();
   image(lily4, 380, 290 + sin(frameCount * 0.03) * 3, 410, 190);
@@ -340,7 +342,16 @@ function drawEnvironment() {
   bigLilyRect = { x: 285, y: 304, w: 400, h: 180 };
   push();
   image(lily4, bigLilyRect.x, bigLilyRect.y, bigLilyRect.w, bigLilyRect.h);
-  image(lily4, 255, 154, 223, 106);
+  pop();
+  otherlilyRect = { x: 255, y: 154, w: 223, h: 106 };
+  push();
+  image(
+    lily4,
+    otherlilyRect.x,
+    otherlilyRect.y,
+    otherlilyRect.w,
+    otherlilyRect.h
+  );
   pop();
 
   // LILY 3 (bobbing) – update rect.y based on current bob
@@ -355,6 +366,7 @@ function drawEnvironment() {
   textSize(18);
   fill("#ffffff");
   text("Press Q to quit", 40, 450);
+  text("Press Z to capture flies", 40, 470);
 }
 function jumpTo(cx, cy) {
   // Start at current frog position
@@ -672,10 +684,21 @@ function mousePressed() {
       return;
     }
   }
+  if (
+    mouseX >= otherlilyRect.x &&
+    mouseX <= otherlilyRect.x + otherlilyRect.w &&
+    mouseY >= otherlilyRect.y &&
+    mouseY <= otherlilyRect.y + otherlilyRect.h
+  ) {
+    const cx = otherlilyRect.x + otherlilyRect.w / 2;
+    const cy = otherlilyRect.y + otherlilyRect.h / 2;
+    jumpTo(cx, cy);
+    return;
+  }
 }
 
 function keyPressed() {
-  if (key === "" && frog.tongue.state === "idle") {
+  if (key === "z" && frog.tongue.state === "idle") {
     frog.tongue.state = "outbound";
   } else if (key === "q" && state == "game") {
     state = "menu";
