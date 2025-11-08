@@ -24,7 +24,6 @@ let gameWon = false;
 let bar = [];
 
 // For frog jumping
-let pads = [];
 let isJumping = false;
 let jumpStart;
 let jumpTarget;
@@ -60,7 +59,7 @@ let frog = {
   tongue: {
     x: 300,
     y: 450,
-    size: 10,
+    size: 15,
     speed: 15,
     state: "idle",
     offsetY: -30, // mouth offset so the tongue starts from the frog's mouth
@@ -149,12 +148,6 @@ function setup() {
     h: 40,
   };
 
-  pads = [
-    { x: 150, y: 300 },
-    { x: 400, y: 260 },
-    { x: 650, y: 320 },
-  ];
-
   // Give the fly its first random position
   resetFly();
 }
@@ -165,7 +158,6 @@ function draw() {
     drawMenu();
   } else if (state === "game") {
     drawGame();
-    drawProgressBar();
   } else if (state === "instructions") {
     drawInstructions();
     mouseHover();
@@ -309,10 +301,10 @@ function drawFrog() {
 
   // Tongue movement and drawing
   push();
-  stroke("#ff0000");
+  stroke("#d47171");
   strokeWeight(frog.tongue.size / 2);
   line(mouthX, mouthY, frog.tongue.x, frog.tongue.y);
-  fill("#ff0000");
+  fill("#d47171");
   noStroke();
   ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
   pop();
@@ -330,7 +322,7 @@ function drawEnvironment() {
   //frog decoration (if you want it to stay here too)
 
   push();
-  image(lily1, 295, 230 + sin(frameCount * 0.04) * 3, 275, 130);
+  image(lily1, 595, 180 + sin(frameCount * 0.04) * 3, 180, 85);
   pop();
 
   // lotus1
@@ -342,11 +334,23 @@ function drawEnvironment() {
   image(lotus1shadow, 35, 220, 75, 53);
   pop();
 
-  for (let p of pads) {
-    noStroke();
-    fill(0, 255, 0, 50);
-    ellipse(p.x, p.y, 100, 40);
-  }
+  //lotus
+  push();
+  image(lotus1, 770, 330 + sin(frameCount * 0.03) * 3, 55, 50);
+  pop();
+
+  push();
+  image(lotus2shadow, 770, 380, 52, 32);
+  pop();
+
+  push();
+  image(lily4, 285, 304, 400, 180);
+  image(lily4, 255, 154, 223, 106);
+  pop();
+
+  push();
+  image(lily3, 35, 294 + sin(frameCount * 0.04) * 3, 210, 100);
+  pop();
 }
 /**
  * Moves the fly according to its speed
@@ -355,16 +359,8 @@ function drawEnvironment() {
 function moveFly() {
   // Move the fly
   fly.x += fly.speed;
-
-  //MOD: Defining all the new modes of movement
-  if (fly.mode === "straight") {
-  }
-  //Referencing mr angry assignement with movement for the fly
-  else if (fly.mode === "sine") {
-    fly.angle += 0.08;
-    fly.y = fly.baseY + sin(fly.angle) * 30;
-  } else if (fly.mode === "jitter") {
-    fly.y += random(-2, 2);
+  // Handle the fly going off the canvas
+  if (fly.x > width) {
     resetFly();
   }
 }
@@ -388,21 +384,8 @@ function drawScore() {
  * Resets the fly to the left with a random y
  */
 function resetFly() {
-  fly.x = -20;
-
-  //MOD: using fly.baseY as reference & same room added as before
-  fly.baseY = random(30, 300);
-  fly.y = fly.baseY;
-
-  //MOD: different speed for each fly
-  fly.speed = random(2, 4);
-
-  //MOD: Angle reset for the sine movement
-  fly.angle = 0;
-
-  //MOD: random picker for movement
-  const modes = ["straight", "sine", "jitter"];
-  fly.mode = random(modes);
+  fly.x = 0;
+  fly.y = random(0, 300);
 }
 
 /**
