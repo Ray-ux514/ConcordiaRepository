@@ -1,15 +1,15 @@
 /**
- * Frogfrogfrog
- * Pippin Barr
+ * Catching flies
+ * Rayvhaun D-Gordon
  *
  * A game of catching flies with your frog-tongue
  *
  * Instructions:
- * - Move the frog with your mouse
- * - Click to launch the tongue
- * - Catch flies
+ * - Move the frog with your mouse by clicking on the lily pads
+ * - Click "z" launch the tongue
+ * - Catch 6 flies and win the game
  *
- * Made with p5
+ * Made with p5 a
  * https://p5js.org/
  */
 
@@ -110,6 +110,7 @@ let flies = [];
  */
 
 function preload() {
+  //Images and assets
   lily1 = loadImage("assets/images/lily.png");
   frog1 = loadImage("assets/images/frog1.png");
   frogImg = loadImage("assets/images/frog.png");
@@ -235,6 +236,7 @@ function drawInstructions() {
   fill("#ffffff");
   text("INSTRUCTIONS", 40, 50);
 
+  //instructions text//
   textSize(20);
   textFont(font2);
   textWrap(WORD);
@@ -345,6 +347,7 @@ function drawEnvironment() {
   pop();
   otherlilyRect = { x: 255, y: 154, w: 223, h: 106 };
   push();
+  //other lily pad that you can jump on//
   image(
     lily4,
     otherlilyRect.x,
@@ -354,13 +357,13 @@ function drawEnvironment() {
   );
   pop();
 
-  // LILY 3 (bobbing) – update rect.y based on current bob
+  // LILY 3 that you can jump on
   const lily3Y = 294 + sin(frameCount * 0.04) * 3;
   lily3Rect = { x: 35, y: lily3Y, w: 210, h: 100 };
   push();
   image(lily3, lily3Rect.x, lily3Rect.y, lily3Rect.w, lily3Rect.h);
   pop();
-
+  //information at the bottom left
   textAlign(LEFT, BOTTOM);
   textFont(font1);
   textSize(18);
@@ -555,7 +558,7 @@ function drawWin() {
   textSize(20);
   text("Click to return to the menu", width / 2, height / 2 + 40);
 }
-//hover
+//hover states//
 function mouseHover() {
   if (
     state === "menu" &&
@@ -591,10 +594,6 @@ function mouseHover() {
     backbuttonCurrent = backbuttondefault;
   }
 }
-
-/**
- * Launch the tongue on click (if it's not launched yet)
- */
 
 function updateFrogJump() {
   if (isJumping) {
@@ -684,6 +683,7 @@ function mousePressed() {
       return;
     }
   }
+  //other lily
   if (
     mouseX >= otherlilyRect.x &&
     mouseX <= otherlilyRect.x + otherlilyRect.w &&
