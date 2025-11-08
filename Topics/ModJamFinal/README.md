@@ -10,7 +10,7 @@ A game about catching flies.
 - Made it possible for the user to jump on lily pads to better capture flies
 - Adding sounds effects and music
 
-[Play it!](https://ray-ux514.github.io/ConcordiaRepository/Topics/ModJamFinal)
+[Play it!]()
 
 - [Ideas](./ideas.md)
 - [Planning](./planning.md)

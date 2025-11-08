@@ -467,10 +467,6 @@ function resetFly() {
 }
 
 /**
- * Moves the frog to the mouse position on x
- */
-
-/**
  * Handles moving the tongue based on its state
  */
 function moveTongue() {
@@ -495,7 +491,7 @@ function moveTongue() {
 }
 
 function syncTongueToMouth() {
-  // mouth position
+  //mouth position
   const mouthX = frog.body.x;
   const mouthY = frog.body.y + frog.tongue.offsetY;
   frog.tongue.x = mouthX;
