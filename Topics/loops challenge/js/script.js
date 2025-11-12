@@ -15,6 +15,7 @@ let thickness2 = 1;
  */
 function setup() {
   createCanvas(500, 500);
+  colorMode(HSB);
 }
 
 /**
@@ -22,14 +23,19 @@ function setup() {
  * gradually lightening colour
  */
 function draw() {
-  background("pink");
+  for (let x = 0; x < width; x++) {
+    // Map the y-position to a hue value (0 to 360)
+    let hue = map(x, 0, width, 0, 360);
+    stroke(hue, 76, 140); // bright colorful lines
+    line(0, x, height, x); // 1px apart lines forming a gradient
+  }
 
   let x = 0;
   let shade = 0;
   let thickness = 1;
 
   while (x <= width) {
-    stroke(shade);
+    stroke(hue, 100, 80);
     strokeWeight(thickness);
     line(x, 0, x, height);
 
@@ -42,7 +48,7 @@ function draw() {
   let thickness2 = 1;
 
   while (y <= height) {
-    stroke(shade2);
+    stroke(hue, 2, 80);
     strokeWeight(thickness2);
     line(0, y, width, y);
 
