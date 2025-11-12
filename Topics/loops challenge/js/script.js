@@ -35,12 +35,12 @@ function draw() {
   let thickness = 1;
 
   while (x <= width) {
-    stroke(hue, 100, 80);
+    stroke(shade);
     strokeWeight(thickness);
     line(x, 0, x, height);
 
     x += 50;
-    shade += 25;
+    shade += 0;
     thickness += 0.5;
   }
   let y = 0;
@@ -48,12 +48,12 @@ function draw() {
   let thickness2 = 1;
 
   while (y <= height) {
-    stroke(hue, 2, 80);
+    stroke(shade2);
     strokeWeight(thickness2);
     line(0, y, width, y);
 
     y += 50;
-    shade2 += 25;
+    shade2 += 0;
     thickness2 += 0.5;
   }
 }
