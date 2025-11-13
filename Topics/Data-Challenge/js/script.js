@@ -41,7 +41,7 @@ function draw() {
   background(0);
 
   push();
-  fill("pink");
+  fill("white");
   textAlign(CENTER, CENTER);
   textSize(32);
   text(carName, width / 2, height / 2);
