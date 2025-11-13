@@ -25,6 +25,7 @@ let carName = "Click to generate a car name.";
 function preload() {
   carData = loadJSON("assets/cars.json");
   dinosaurData = loadJSON("assets/dinosaurs.json");
+  langData = loadJSON("assets/lang.json");
 }
 
 /**
