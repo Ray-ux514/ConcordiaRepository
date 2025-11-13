@@ -23,12 +23,8 @@ let carName = "Click to generate a car name.";
  * Load the car and dinosaur data
  */
 function preload() {
-  carData = loadJSN(
-    "https://raw.githubusercontent.com/dariusk/corpora/master/data/transportation/car_makers.json"
-  );
-  dinosaurData = loadJSON(
-    "https://raw.githubusercontent.com/dariusk/corpora/master/data/animals/dinosaurs.json"
-  );
+  carData = loadJSON("assets/cars.json");
+  dinosaurData = loadJSON("assets/dinosaurs.json");
 }
 
 /**
@@ -57,6 +53,7 @@ function draw() {
  */
 
 function mousePressed() {
-  let car = random(carData.car_makers);
-  let dino = random(dinosaurData.dinosaurs);
+  let car = random(car.description.cars);
+  let dino = random(dinosaur.description.dinosaurs);
+  carName = car + " " + dino;
 }
