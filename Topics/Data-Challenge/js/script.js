@@ -53,7 +53,7 @@ function draw() {
  */
 
 function mousePressed() {
-  let car = random(car.description.cars);
-  let dino = random(dinosaur.description.dinosaurs);
+  let car = random(carData.cars);
+  let dino = random(dinosaurData.dinosaurs);
   carName = car + " " + dino;
 }
