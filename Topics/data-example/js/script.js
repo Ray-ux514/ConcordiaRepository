@@ -27,4 +27,19 @@ function setup() {
  */
 function draw() {
   background(0);
+  drawMaze();
+}
+
+function drawMaze() {
+  for (let i = 0; i < NUM_COLS; i++) {
+    for (let j = 0; j < NUM_ROWS; j++) {
+      drawCell(i, j);
+    }
+  }
+}
+
+function drawCell(x, y) {
+  fill("#d6404b");
+  rectMode(CORNER);
+  rect(x * cell_size, y * cell_size, cell_size, cell_size);
 }
