@@ -75,7 +75,7 @@ let frog = {
     x: 300,
     y: 450,
     size: 15,
-    speed: 15,
+    speed: 20,
     state: "idle",
     offsetY: -10, // mouth offset so the tongue starts from the frog's mouth
   },
