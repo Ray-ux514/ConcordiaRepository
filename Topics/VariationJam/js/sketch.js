@@ -47,9 +47,9 @@ let fly = {
   y: 0,
   size: 20,
 };
-const instructionsButton = {
-  x: 440,
-  y: 370,
+const startbuttonR = {
+  x: 660,
+  y: 400,
   width: 150,
   height: 50,
   color: "rgba(255,255,255,0)",
@@ -92,7 +92,7 @@ function setup() {
 function draw() {
   if (state === "instructions") {
     mouseHover();
-    drawInstructions;
+    drawInstructions();
   } else if (state === "game") {
     drawGame();
   }
@@ -256,7 +256,7 @@ function drawInstructions() {
   textFont(font1);
   textSize(32);
   fill("#ffffff");
-  text("INSTRUCTIONS", 40, 50);
+  text("INSTRUCTIONS", 40, 100);
 
   //instructions text//
   textSize(20);
@@ -266,7 +266,7 @@ function drawInstructions() {
     "Move your frog by clicking on the open lily pads around the pond. Time your jumps carefully, the flies won’t stay in one place for long! When a fly gets close enough, press the Z key to use your tongue and grab it. Each fly you catch brings you closer to victory.\n\n" +
       "Catch all 6 flies to win the game. Stay quick, stay alert, and good luck!",
     40,
-    100,
+    150,
     350
   );
 
@@ -278,13 +278,13 @@ function drawInstructions() {
   //backbutton
   push();
   noStroke();
-  fill(instructionsButton.color);
+  fill(startbuttonR.color);
   image(
-    instructionsCurrent,
-    instructionsButton.x,
-    instructionsButton.y,
-    instructionsButton.width,
-    instructionsButton.height
+    startbuttonCurrent,
+    startbuttonR.x,
+    startbuttonR.y,
+    startbuttonR.width,
+    startbuttonR.height
   );
   pop();
 }
