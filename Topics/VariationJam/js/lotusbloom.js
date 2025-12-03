@@ -33,6 +33,8 @@ let font2;
 let startbuttonImg;
 let startbuttonHoverImg;
 let startbuttonCurrent;
+let timeUp = false;
+let gameWin = false;
 
 // --- GAME STATE ---
 let lotuses = [];
@@ -66,11 +68,15 @@ function draw() {
   if (state === "instructions") {
     mouseHover();
     drawInstructions();
-  } else if (state === "playing") {
+  } else {
+    // this covers "playing", "won", and "lost"
     drawGame();
   }
 }
+
 function resetGame() {
+  gameWin = false;
+  timeUp = false;
   foundCount = 0;
   gameStartTime = millis();
   lotuses = [];
@@ -136,13 +142,14 @@ function drawGame() {
   // animate + draw lotus grid
   drawLotuses();
 
+  // OVERLAYS FOR END STATES
   if (state === "won") {
-    drawEndMessage("You found all 3!");
+    drawWin();
   } else if (state === "lost") {
     drawEndMessage("Time’s up!");
   }
 
-  // handle timer -> lost
+  // handle timer -> lost (only while still playing)
   if (state === "playing") {
     let elapsed = (millis() - gameStartTime) / 1000;
     if (elapsed >= GAME_TIME && foundCount < DIFFERENT_COUNT) {
@@ -235,6 +242,7 @@ function mouseHover() {
   }
 }
 function mousePressed() {
+  // START BUTTON ON INSTRUCTIONS
   if (state === "instructions") {
     const left = startbuttonR.x - startbuttonR.width / 2;
     const right = startbuttonR.x + startbuttonR.width / 2;
@@ -248,12 +256,20 @@ function mousePressed() {
     }
   }
 
-  if (state === "won" || state === "lost") {
+  // WIN → go back to menu
+  if (state === "won") {
+    window.location.href = "index.html";
+    return;
+  }
+
+  // LOST → restart game
+  if (state === "lost") {
     resetGame();
     state = "playing";
     return;
   }
 
+  // only click-detect lotuses while playing
   if (state !== "playing") return;
 
   // check clicks from top-most down
@@ -278,6 +294,11 @@ function drawTimerBar() {
   let elapsed = (millis() - gameStartTime) / 1000;
   let remaining = constrain(GAME_TIME - elapsed, 0, GAME_TIME);
   let pct = remaining / GAME_TIME;
+  // when it hits 0, mark timeUp
+  if (!timeUp && remaining <= 0) {
+    timeUp = true;
+    remaining = 0;
+  }
 
   let barX = 40;
   let barY = 20;
@@ -324,21 +345,21 @@ function drawEndMessage(msg) {
   text("Click to play again or Q to quit", width / 2, height / 2 + 30);
 }
 function drawWin() {
-  if (!gameWin) return;
-  background("#06464a");
-  fill("#ce2a4d");
+  background("#ffc848");
+
+  fill("#ffffff");
   textAlign(CENTER, CENTER);
   textFont(font1);
   textSize(48);
   text("YOU WIN!", width / 2, height / 2 - 20);
-  fill("#ffffff");
 
+  fill("#000000");
   textSize(20);
   text("Click to return to the menu", width / 2, height / 2 + 40);
 }
 
 function keyPressed() {
-  if (key === "q" && state == "playing") {
+  if (key === "q" && state == "lost") {
     window.location.href = "index.html";
   }
 }

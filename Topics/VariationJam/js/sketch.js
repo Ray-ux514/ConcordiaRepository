@@ -31,6 +31,9 @@ let startbuttonImg;
 let startbuttonHoverImg;
 let startbuttonCurrent;
 let currentColor;
+//sound//
+let gameSound;
+let eatFlySound;
 
 let cellColor = { r: 192, g: 36, b: 209 };
 let cellColor_2 = { r: 217, g: 123, b: 227 };
@@ -75,6 +78,9 @@ function preload() {
   font2 = loadFont("assets/fonts/ABCGinto-Regular-Trial.otf");
   startbuttonImg = loadImage("assets/images/start_default.png");
   startbuttonHoverImg = loadImage("assets/images/start_hover.png");
+  //sound//
+  gameSound = loadSound("assets/sounds/gamesound.mp3");
+  eatFlySound = loadSound("assets/sounds/eatfly.mp3");
 }
 
 function setup() {
@@ -239,6 +245,8 @@ function keyPressed(event) {
   const d = dist(player.x, player.y, fly.x, fly.y);
   if (d < (player.size + fly.size) / 2) {
     score++;
+    eatFlySound.setVolume(0.1); // lower this sound
+    eatFlySound.play();
     // WIN CONDITION — 8 bugs before time runs out
     if (score >= 8 && !timeUp) {
       gameWin = true;
