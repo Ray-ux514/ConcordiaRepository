@@ -1,22 +1,25 @@
 /**
  * Hungry Hungry Frogs – center-spawn version
  * Flies spawn in the middle and move outward.
- * You are the bottom frog – press Z to eat flies.
+ press Z to eat flies.
  */
 
 "use strict";
+// ===== ASSETS & GAME STATE =====
 
 let gameState = "play"; // "play" or "end"
+let font1;
+let font2;
 
 let centerX, centerY;
 let pondRadius = 120;
 
 // frogs
-let frogs = []; // 👈 ADD THIS LINE
+let frogs = []; //
 
 // IMAGES
 let lilyPadImg;
-let frogImgs = []; // one image per frog (or reuse the same one)
+let frogImgs = []; // one image per frog
 let playerIndex = 2; // 0 = top, 1 = right, 2 = bottom (you), 3 = left
 let frogRingRadius; // distance of frogs from center
 
@@ -24,11 +27,25 @@ let frogRingRadius; // distance of frogs from center
 let flies = [];
 let winningScore = 12; // first frog to reach 6 flies wins
 
+//star button
+const startbuttonR = {
+  x: 660,
+  y: 380,
+  width: 150,
+  height: 50,
+  color: "rgba(255,255,255,0)",
+};
+
 let bgColor = "#edb5ad";
 let pondColor = "#4f8e3b";
 function preload() {
-  // change these paths to match your project
+  // assest and images
   lilyPadImg = loadImage("assets/images/lilypad.png");
+
+  font1 = loadFont("assets/fonts/ABCMaxiPlusVariable-Trial.ttf");
+  font2 = loadFont("assets/fonts/ABCGinto-Regular-Trial.otf");
+  startbuttonImg = loadImage("assets/images/start_default.png");
+  startbuttonHoverImg = loadImage("assets/images/start_hover.png");
 
   frogImgs[0] = loadImage("assets/images/orangefrog.png");
   frogImgs[1] = loadImage("assets/images/bluefrog.png");
@@ -40,6 +57,8 @@ function setup() {
   createCanvas(850, 500);
   centerX = width / 2;
   centerY = height / 2;
+  startbuttonCurrent = startbuttonImg;
+  imageMode(CENTER);
 
   setupFrogs();
 
@@ -92,17 +111,23 @@ function makeFly() {
 // drawloop
 
 function draw() {
+  if (state === "instructions") {
+    mouseHover();
+    drawInstructions();
+  } else if (state === "play") {
+    drawGame();
+  }
+}
+function drawGame() {
   background(bgColor);
 
-  if (gameState === "play") {
-    drawPond();
-    updateFlies();
-    updateFrogs();
-    checkTongueHits();
-    drawFlies();
-    drawFrogs();
-    drawScoreboard();
-  }
+  drawPond();
+  updateFlies();
+  updateFrogs();
+  checkTongueHits();
+  drawFlies();
+  drawFrogs();
+  drawScoreboard();
 }
 
 //functions
@@ -114,6 +139,46 @@ function drawPond() {
   // draw your lily pad image at the center
   image(lilyPadImg, centerX, centerY, 328, 313);
 
+  pop();
+}
+//imstructions//
+function drawInstructions() {
+  background("#4a7636");
+
+  textAlign(LEFT);
+  textFont(font1);
+  textSize(32);
+  fill("#ffffff");
+  text("INSTRUCTIONS", 40, 100);
+
+  //instructions text//
+  textSize(20);
+  textFont(font2);
+  textWrap(WORD);
+  text(
+    "Move your frog by clicking on the open lily pads around the pond. Time your jumps carefully, the flies won’t stay in one place for long! When a fly gets close enough, press the Z key to use your tongue and grab it. Each fly you catch brings you closer to victory.\n\n" +
+      "Catch all 6 flies to win the game. Stay quick, stay alert, and good luck!",
+    40,
+    150,
+    350
+  );
+
+  //bluefrog//
+  push();
+  image(bluefrog, 660, 230, 95, 90);
+  pop();
+
+  //backbutton
+  push();
+  noStroke();
+  fill(startbuttonR.color);
+  image(
+    startbuttonCurrent,
+    startbuttonR.x,
+    startbuttonR.y,
+    startbuttonR.width,
+    startbuttonR.height
+  );
   pop();
 }
 

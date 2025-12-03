@@ -47,6 +47,7 @@ let fly = {
   y: 0,
   size: 20,
 };
+//star button
 const startbuttonR = {
   x: 660,
   y: 380,
