@@ -4,34 +4,39 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      width="device-width,"
-      initial-scale="1.0,"
-      maximum-scale="1.0,"
-      user-scalable="0"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-
     <title>Variation Jam</title>
 
-    <!-- CSS stylesheet(s) -->
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 
-    <!-- Library script(s) -->
-
-    <!-- p5.min.js is the main p5 library -->
+    <!-- p5 libs (only needed here if you want p5 on this page) -->
     <script src="js/libraries/p5.min.js"></script>
-    <!-- p5.sound.min.js allows us to use sound -->
     <script src="js/libraries/p5.sound.min.js"></script>
-
-    <!-- My script(s) -->
   </head>
 
   <body>
     <div class="screen">
       <div class="holder">
-        <img src="assets/images/collect_screen.png" alt="collect_screen" />
-        <img src="assets/images/hungry_screen.png" alt="hungry_screen" />
-        <img src="assets/images/lotus_scren.png" alt="lotus_scren" />
+        <img
+          id="btn-collect"
+          src="assets/images/collect_screen.png"
+          alt="Frog Collect"
+        />
+        <img
+          id="btn-hungry"
+          src="assets/images/hungry_screen.png"
+          alt="Hungry Frogs"
+        />
+        <img
+          id="btn-lotus"
+          src="assets/images/lotus_scren.png"
+          alt="Lotus Bloom"
+        />
       </div>
     </div>
+
+    <!-- JS that wires up the buttons -->
+    <script src="js/menu.js"></script>
   </body>
 </html>
