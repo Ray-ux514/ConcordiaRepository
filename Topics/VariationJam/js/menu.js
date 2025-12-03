@@ -14,6 +14,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   lotusBtn.addEventListener("click", () => {
-    window.location.href = "lotusBloom.html"; // lotus game page
+    window.location.href = "lotusbloom.html"; // lotus game page
   });
 });

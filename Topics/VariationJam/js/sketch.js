@@ -49,7 +49,7 @@ let fly = {
 };
 const startbuttonR = {
   x: 660,
-  y: 400,
+  y: 380,
   width: 150,
   height: 50,
   color: "rgba(255,255,255,0)",
@@ -272,7 +272,7 @@ function drawInstructions() {
 
   //bluefrog//
   push();
-  image(bluefrog, 770, 230, 55, 50);
+  image(bluefrog, 660, 230, 95, 90);
   pop();
 
   //backbutton
@@ -289,30 +289,38 @@ function drawInstructions() {
   pop();
 }
 function mouseHover() {
-  if (
-    state === "instruction" &&
-    mouseX > startbuttonR.x &&
-    mouseX < startbuttonR.x + startbuttonR.width &&
-    mouseY > startbuttonR.y &&
-    mouseY < startbuttonR.y + startbuttonR.height
-  ) {
-    startbuttonCurrent = startbuttonHoverImg;
+  if (state === "instructions") {
+    const left = startbuttonR.x - startbuttonR.width / 2;
+    const right = startbuttonR.x + startbuttonR.width / 2;
+    const top = startbuttonR.y - startbuttonR.height / 2;
+    const bottom = startbuttonR.y + startbuttonR.height / 2;
+
+    if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+      startbuttonCurrent = startbuttonHoverImg;
+    } else {
+      startbuttonCurrent = startbuttonImg;
+    }
   } else {
     startbuttonCurrent = startbuttonImg;
   }
 }
+
 function mousePressed() {
   if (state === "instructions") {
-    if (
-      mouseX > startbuttonR.x &&
-      mouseX < startbuttonR.x + startbuttonR.width &&
-      mouseY > startbuttonR.y &&
-      mouseY < startbuttonR.y + startbuttonR.height
-    ) {
+    const left = startbuttonR.x - startbuttonR.width / 2;
+    const right = startbuttonR.x + startbuttonR.width / 2;
+    const top = startbuttonR.y - startbuttonR.height / 2;
+    const bottom = startbuttonR.y + startbuttonR.height / 2;
+
+    if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
       resetGame();
       state = "game";
       return;
     }
+  }
+  // ===== WIN SCREEN CLICK → RETURN TO MENU =====
+  if (gameWin && timeUp) {
+    window.location.href = "index.html";
   }
 }
 
@@ -325,18 +333,25 @@ function drawWin() {
   textFont(font1);
   textSize(48);
   text("YOU WIN!", width / 2, height / 2 - 20);
-  fill("#fffff");
+  fill("#ffffff");
 
   textSize(20);
   text("Click to return to the menu", width / 2, height / 2 + 40);
 }
-function resetGame();
-score = 0;
-gameWin = false;
-timeUp = false;
-levelStartTime = millis();
-animatedProgress = bar.w;
+function resetGame() {
+  score = 0;
+  gameWin = false;
+  timeUp = false;
+  levelStartTime = millis();
+  animatedProgress = bar.w;
 
+  // reset player position
+  player.x = STEP_SIZE / 2;
+  player.y = GRID_TOP + STEP_SIZE / 2;
+
+  // new fly
+  spawnFly();
+}
 
 //MAIN DRAW LOOP
 
