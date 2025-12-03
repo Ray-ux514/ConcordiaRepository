@@ -27,6 +27,9 @@ let gameWin = false;
 let bluefrog;
 let font1;
 let font2;
+let startbuttonImg;
+let startbuttonHoverImg;
+let startbuttonCurrent;
 let currentColor;
 
 let cellColor = { r: 192, g: 36, b: 209 };
@@ -43,6 +46,13 @@ let fly = {
   x: 0,
   y: 0,
   size: 20,
+};
+const instructionsButton = {
+  x: 440,
+  y: 370,
+  width: 150,
+  height: 50,
+  color: "rgba(255,255,255,0)",
 };
 
 let x_is_even = true;
@@ -62,11 +72,14 @@ function preload() {
   bluefrog = loadImage("assets/images/frogblue.png");
   font1 = loadFont("assets/fonts/ABCMaxiPlusVariable-Trial.ttf");
   font2 = loadFont("assets/fonts/ABCGinto-Regular-Trial.otf");
+  startbuttonImg = loadImage("assets/images/start_default.png");
+  startbuttonHoverImg = loadImage("assets/images/start_hover.png");
 }
 
 function setup() {
   createCanvas(CANVAS_W, CANVAS_H);
   imageMode(CENTER);
+  startbuttonCurrent = startbuttonImg;
 
   // number of grid cells in the *usable* area under the bar
   cols = floor(width / STEP_SIZE);
@@ -75,6 +88,14 @@ function setup() {
 
   spawnFly();
   levelStartTime = millis();
+}
+function draw() {
+  if (state === "instructions") {
+    mouseHover();
+    drawInstructions;
+  } else if (state === "game") {
+    drawGame();
+  }
 }
 
 // ===== GRID DRAWING =====
@@ -227,6 +248,74 @@ function keyPressed(event) {
     }
   }
 }
+
+function drawInstructions() {
+  background("#06464a");
+
+  textAlign(LEFT);
+  textFont(font1);
+  textSize(32);
+  fill("#ffffff");
+  text("INSTRUCTIONS", 40, 50);
+
+  //instructions text//
+  textSize(20);
+  textFont(font2);
+  textWrap(WORD);
+  text(
+    "Move your frog by clicking on the open lily pads around the pond. Time your jumps carefully, the flies won’t stay in one place for long! When a fly gets close enough, press the Z key to use your tongue and grab it. Each fly you catch brings you closer to victory.\n\n" +
+      "Catch all 6 flies to win the game. Stay quick, stay alert, and good luck!",
+    40,
+    100,
+    350
+  );
+
+  //bluefrog//
+  push();
+  image(bluefrog, 770, 230, 55, 50);
+  pop();
+
+  //backbutton
+  push();
+  noStroke();
+  fill(instructionsButton.color);
+  image(
+    instructionsCurrent,
+    instructionsButton.x,
+    instructionsButton.y,
+    instructionsButton.width,
+    instructionsButton.height
+  );
+  pop();
+}
+function mouseHover() {
+  if (
+    state === "instruction" &&
+    mouseX > startbuttonR.x &&
+    mouseX < startbuttonR.x + startbuttonR.width &&
+    mouseY > startbuttonR.y &&
+    mouseY < startbuttonR.y + startbuttonR.height
+  ) {
+    startbuttonCurrent = startbuttonHoverImg;
+  } else {
+    startbuttonCurrent = startbuttonImg;
+  }
+}
+function mousePressed() {
+  if (state === "instructions") {
+    if (
+      mouseX > startbuttonR.x &&
+      mouseX < startbuttonR.x + startbuttonR.width &&
+      mouseY > startbuttonR.y &&
+      mouseY < startbuttonR.y + startbuttonR.height
+    ) {
+      resetGame();
+      state = "game";
+      return;
+    }
+  }
+}
+
 //win message//
 function drawWin() {
   if (!gameWin) return;
@@ -256,4 +345,3 @@ function drawGame() {
   drawTimeUpMessage();
   drawWin();
 }
-function draw() {}
