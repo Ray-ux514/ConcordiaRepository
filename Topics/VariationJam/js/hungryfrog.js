@@ -262,17 +262,26 @@ function drawEndScreen() {
   let playerScore = frogs[playerIndex].score;
   let enemyScore = frogs[0].score + frogs[1].score + frogs[3].score;
 
+  // dark overlay
   push();
-  textAlign(CENTER, CENTER);
-  fill(255);
-  textSize(40);
-  text("ROUND OVER", width / 2, height / 2 - 40);
+  background(bgColor);
 
+  fill(0, 0, 0, 140);
+  rect(0, 0, width, height);
+
+  // text
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textFont(font1);
+  textSize(40);
+  text("ROUND OVER", width / 2, height / 2 - 60);
+
+  textFont(font2);
   textSize(22);
   text(
     "You: " + playerScore + "   •   Other frogs: " + enemyScore,
     width / 2,
-    height / 2 + 5
+    height / 2 - 15
   );
 
   let result =
@@ -282,8 +291,11 @@ function drawEndScreen() {
       ? "It's a tie!"
       : "The other frogs ate more…";
 
-  text(result, width / 2, height / 2 + 40);
-  text("Click to play again", width / 2, height / 2 + 80);
+  textSize(24);
+  text(result, width / 2, height / 2 + 20);
+
+  textSize(18);
+  text("Click to play again or press Q to quit", width / 2, height / 2 + 60);
   pop();
 }
 
@@ -420,12 +432,6 @@ function angleDifference(a, b) {
   let d = abs(a - b) % TWO_PI;
   return d > PI ? TWO_PI - d : d;
 }
-function checkWin(frog) {
-  if (frog.score >= winningScore && gameState === "play") {
-    gameState = "end";
-    drawEndScreen();
-  }
-}
 
 //input
 function keyPressed() {
@@ -480,5 +486,22 @@ function mousePressed() {
   if (gameState === "end") {
     resetGame();
     return;
+  }
+}
+function keyPressed() {
+  // quit back to menu
+  if (key === "q" || key === "Q") {
+    window.location.href = "index.html";
+    return;
+  }
+
+  if (gameState !== "play") return;
+
+  // player frog tongue
+  let player = frogs[playerIndex];
+  if (key === "z" || key === "Z") {
+    if (player.tongue.state === "idle") {
+      player.tongue.state = "outbound";
+    }
   }
 }
