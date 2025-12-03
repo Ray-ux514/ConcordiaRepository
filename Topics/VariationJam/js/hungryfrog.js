@@ -8,7 +8,7 @@
 // ===== ASSETS & GAME STATE =====
 
 let gameState = "instructions"; // "instructions", "play", "end"
-
+let gameWin = false; //
 let font1;
 let font2;
 let startbuttonImg;
@@ -87,15 +87,15 @@ function setupFrogs() {
 
 function makeFrog(angle, isPlayer) {
   return {
-    angle: angle, // angle from center to frog
-    radius: frogRingRadius, // distance from center
+    angle: angle,
+    radius: frogRingRadius,
     isPlayer: isPlayer,
     score: 0,
     tongue: {
       length: 0,
-      maxLength: 160,
-      speed: 18,
-      state: "idle", // "idle", "outbound", "inbound"
+      maxLength: isPlayer ? 180 : 140, // player gets longer tongue
+      speed: isPlayer ? 22 : 16, // player tongue moves faster
+      state: "idle",
     },
   };
 }
@@ -259,44 +259,45 @@ function drawScoreboard() {
 }
 
 function drawEndScreen() {
-  let playerScore = frogs[playerIndex].score;
-  let enemyScore = frogs[0].score + frogs[1].score + frogs[3].score;
-
-  // dark overlay
-  push();
   background(bgColor);
 
-  fill(0, 0, 0, 140);
+  // dark overlay
+  fill(0, 0, 0, 150);
   rect(0, 0, width, height);
 
-  // text
-  fill(255);
   textAlign(CENTER, CENTER);
   textFont(font1);
-  textSize(40);
-  text("ROUND OVER", width / 2, height / 2 - 60);
+  textSize(48);
+  fill(255);
+
+  if (gameWin) {
+    text("YOU WIN!", width / 2, height / 2 - 40);
+  } else {
+    text("GAME OVER", width / 2, height / 2 - 40);
+  }
+
+  // show scores
+  let playerScore = frogs[playerIndex].score;
+  let enemyScore = frogs[0].score + frogs[1].score + frogs[3].score;
 
   textFont(font2);
   textSize(22);
   text(
     "You: " + playerScore + "   •   Other frogs: " + enemyScore,
     width / 2,
-    height / 2 - 15
+    height / 2
   );
 
-  let result =
-    playerScore > enemyScore
-      ? "You win!"
-      : playerScore === enemyScore
-      ? "It's a tie!"
-      : "The other frogs ate more…";
-
-  textSize(24);
-  text(result, width / 2, height / 2 + 20);
-
   textSize(18);
-  text("Click to play again or press Q to quit", width / 2, height / 2 + 60);
-  pop();
+  if (gameWin) {
+    text(
+      "Click to return to the menu or press Q to quit",
+      width / 2,
+      height / 2 + 40
+    );
+  } else {
+    text("Click to play again or press Q to quit", width / 2, height / 2 + 40);
+  }
 }
 
 // ------------------------- POSITION HELPERS -------------------------
@@ -345,10 +346,11 @@ function updateFrogs() {
       }
     }
 
-    //  non-player frogs: chomp when a fly passes in front of them
+    // weaker reaction
     if (!f.isPlayer && f.tongue.state === "idle") {
-      let closeFly = nearestFlyForFrog(f, 25); // 25 px radial window
-      if (closeFly && random() < 0.3) {
+      let closeFly = nearestFlyForFrog(f, 18); // narrower window
+      if (closeFly && random() < 0.12) {
+        // much lower chance
         f.tongue.state = "outbound";
       }
     }
@@ -445,11 +447,6 @@ function keyPressed() {
     }
   }
 }
-function checkWin(frog) {
-  if (frog.score >= winningScore && gameState === "play") {
-    gameState = "end";
-  }
-}
 
 function mouseHover() {
   if (gameState === "instructions") {
@@ -482,14 +479,28 @@ function mousePressed() {
     return;
   }
 
-  // from end screen → restart
+  // from end screen
   if (gameState === "end") {
-    resetGame();
+    if (gameWin) {
+      // YOU WON → back to main menu
+      window.location.href = "index.html";
+    } else {
+      // lost → replay
+      resetGame();
+      gameState = "play";
+    }
     return;
   }
 }
+
+function checkWin(frog) {
+  if (frog.score >= winningScore && gameState === "play") {
+    gameState = "end";
+    gameWin = frog.isPlayer; // true if *you* reached 12 first
+  }
+}
 function keyPressed() {
-  // quit back to menu
+  // Q to quit to index from anywhere
   if (key === "q" || key === "Q") {
     window.location.href = "index.html";
     return;
