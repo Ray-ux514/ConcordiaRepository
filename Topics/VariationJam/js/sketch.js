@@ -250,7 +250,7 @@ function keyPressed(event) {
 }
 
 function drawInstructions() {
-  background("#06464a");
+  background("#4a7636");
 
   textAlign(LEFT);
   textFont(font1);
@@ -356,8 +356,7 @@ function resetGame() {
 //MAIN DRAW LOOP
 
 function drawGame() {
-  background("#06464a"); // dark pond
-
+  background("#4a7636");
   drawTimerBar();
   //drawGrid_alternating_cols();
 

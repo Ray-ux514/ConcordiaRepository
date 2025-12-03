@@ -24,7 +24,7 @@ let frogRingRadius; // distance of frogs from center
 let flies = [];
 let winningScore = 12; // first frog to reach 6 flies wins
 
-let bgColor = "#06464a";
+let bgColor = "#edb5ad";
 let pondColor = "#4f8e3b";
 function preload() {
   // change these paths to match your project
