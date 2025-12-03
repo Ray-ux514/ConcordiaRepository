@@ -178,7 +178,7 @@ function drawLotuses() {
   }
 }
 function drawInstructions() {
-  background("#4a7636");
+  background("#ffc848");
 
   textAlign(LEFT);
   textFont(font1);
@@ -201,7 +201,7 @@ function drawInstructions() {
 
   //bluefrog//
   push();
-  image(lotusNormal, 660, 230, 95, 90);
+  image(lotusNormal, 660, 230, LOTUS_SIZE.width, LOTUS_SIZE.height);
   pop();
 
   //backbutton
@@ -247,12 +247,10 @@ function mousePressed() {
       return;
     }
   }
-  // ===== WIN SCREEN CLICK → RETURN TO MENU =====
-  if (gameWin && timeUp) {
-    window.location.href = "index.html";
-  }
+
   if (state === "won" || state === "lost") {
     resetGame();
+    state = "playing";
     return;
   }
 
@@ -270,7 +268,6 @@ function mousePressed() {
           state = "won";
         }
       }
-      // no penalty for clicking normal lotus (you could add one)
       break;
     }
   }
@@ -288,27 +285,17 @@ function drawTimerBar() {
   let barH = 24;
 
   // background bar
-  noStroke();
-  fill(220, 110, 80);
+  push();
+  stroke("#ce2a4d");
+  strokeWeight(12);
+  fill("#ce2a4d");
   rect(barX, barY, barW, barH, 20);
 
-  // shrinking white bar
-  fill(255);
-  rect(barX, barY, barW * pct, barH, 20);
-
-  // time text
-  fill(0);
-  textAlign(LEFT, CENTER);
-  textSize(14);
-  text(`Time: ${remaining.toFixed(1)}s`, barX + 10, barY + barH / 2);
+  noStroke();
+  fill("#ffffff");
+  rect(barX, barY, barW * pct, barH, 30);
 }
 function drawHUD() {
-  // instruction
-  fill(0);
-  textAlign(LEFT, TOP);
-  textSize(18);
-  text("Spot the 3 different lotus flowers", 40, 60);
-
   // found counter
   textAlign(RIGHT, TOP);
   textSize(18);
