@@ -3,7 +3,7 @@
  */
 
 "use strict";
-
+let state = "instructions";
 // ===== GRID + CANVAS =====
 const STEP_SIZE = 62;
 const CANVAS_W = 850;
@@ -244,8 +244,8 @@ function drawWin() {
 
 //MAIN DRAW LOOP
 
-function draw() {
-  background("#06464a");
+function drawGame() {
+  background("#06464a"); // dark pond
 
   drawTimerBar();
   //drawGrid_alternating_cols();
@@ -256,4 +256,4 @@ function draw() {
   drawTimeUpMessage();
   drawWin();
 }
-//win message//
+function draw() {}

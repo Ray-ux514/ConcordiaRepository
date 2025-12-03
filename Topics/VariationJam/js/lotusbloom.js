@@ -49,7 +49,7 @@ function resetGame() {
   spawnInterval = random(700, 1200);
 }
 function draw() {
-  background("#022f3a"); // dark pond
+  background("#06464a"); // dark pond
 
   drawTimer();
   drawScoreAndLives();
@@ -62,4 +62,24 @@ function draw() {
   handleGlobalTimer();
   spawnBuds();
   updateBuds();
+}
+function drawScoreAndLives() {
+  // top-left score
+  fill(255);
+  textAlign(LEFT, TOP);
+  textSize(18);
+  text(`Score: ${score}`, 20, 60);
+
+  // lives as hearts / dots
+  textSize(18);
+  textAlign(RIGHT, TOP);
+  text(`Lives: ${lives}`, width - 20, 60);
+
+  // big transparent score in bottom-right
+  push();
+  textAlign(RIGHT, BOTTOM);
+  textSize(180);
+  fill(255, 255, 255, 40);
+  text(score, width - 30, height - 20);
+  pop();
 }
