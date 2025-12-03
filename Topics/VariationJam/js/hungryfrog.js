@@ -8,8 +8,12 @@
 // ===== ASSETS & GAME STATE =====
 
 let gameState = "play"; // "play" or "end"
+let state = "instructions";
 let font1;
 let font2;
+let startbuttonImg;
+let startbuttonHoverImg;
+let startbuttonCurrent;
 
 let centerX, centerY;
 let pondRadius = 120;
@@ -143,7 +147,7 @@ function drawPond() {
 }
 //imstructions//
 function drawInstructions() {
-  background("#4a7636");
+  background(bgColor);
 
   textAlign(LEFT);
   textFont(font1);
@@ -165,7 +169,7 @@ function drawInstructions() {
 
   //bluefrog//
   push();
-  image(bluefrog, 660, 230, 95, 90);
+  image(frogImgs[2], 660, 230, 95, 90);
   pop();
 
   //backbutton
@@ -278,7 +282,6 @@ function frogMouthPosition(frog) {
   };
 }
 
-// IMPORTANT CHANGE: tongue always aims from frog TOWARD the lily pad (center)
 function frogTongueTip(frog) {
   let mouth = frogMouthPosition(frog);
   let dirToCenter = atan2(centerY - mouth.y, centerX - mouth.x);
@@ -344,7 +347,7 @@ function updateFlies() {
 
       let frog = frogs[idx];
       frog.score++;
-      checkWin(frog); // see if this made them win
+      checkWin(frog);
     }
   }
 
@@ -430,5 +433,36 @@ function mousePressed() {
       flies.push(makeFly());
     }
     gameState = "play";
+  }
+}
+
+function mouseHover() {
+  if (state === "instructions") {
+    const left = startbuttonR.x - startbuttonR.width / 2;
+    const right = startbuttonR.x + startbuttonR.width / 2;
+    const top = startbuttonR.y - startbuttonR.height / 2;
+    const bottom = startbuttonR.y + startbuttonR.height / 2;
+
+    if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+      startbuttonCurrent = startbuttonHoverImg;
+    } else {
+      startbuttonCurrent = startbuttonImg;
+    }
+  } else {
+    startbuttonCurrent = startbuttonImg;
+  }
+}
+function mousePressed() {
+  if (state === "instructions") {
+    const left = startbuttonR.x - startbuttonR.width / 2;
+    const right = startbuttonR.x + startbuttonR.width / 2;
+    const top = startbuttonR.y - startbuttonR.height / 2;
+    const bottom = startbuttonR.y + startbuttonR.height / 2;
+
+    if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+      resetGame();
+      state = "game";
+      return;
+    }
   }
 }
