@@ -27,7 +27,7 @@ const BUD_RADIUS = 26;
 
 // font
 function preload() {
-  lotusImg = loadImage("assets/lotus.png"); // <-- put your image here
+  lotusImg = loadImage("assets/lotus.png");
   font1 = loadFont("assets/fonts/ABCMaxiPlusVariable-Trial.ttf");
   font2 = loadFont("assets/fonts/ABCGinto-Regular-Trial.otf");
 }
@@ -37,4 +37,29 @@ function setup() {
   ImageMode(CENTER);
   textFont("Inter");
   resetGame();
+}
+
+function resetGame() {
+  buds = [];
+  score = 0;
+  lives = 3;
+  gameOver = false;
+  gameStartTime = millis();
+  lastSpawnTime = millis();
+  spawnInterval = random(700, 1200);
+}
+function draw() {
+  background("#022f3a"); // dark pond
+
+  drawTimer();
+  drawScoreAndLives();
+
+  if (gameOver) {
+    drawGameOver();
+    return; // stop drawing buds / logic
+  }
+
+  handleGlobalTimer();
+  spawnBuds();
+  updateBuds();
 }
