@@ -7,8 +7,8 @@
 "use strict";
 // ===== ASSETS & GAME STATE =====
 
-let gameState = "play"; // "play" or "end"
-let state = "instructions";
+let gameState = "instructions"; // "instructions", "play", "end"
+
 let font1;
 let font2;
 let startbuttonImg;
@@ -76,11 +76,11 @@ function setup() {
 
 function setupFrogs() {
   frogs = [];
-  let angles = [-HALF_PI, 0, HALF_PI, PI]; // top, right, bottom, left
+  let angles = [-HALF_PI, 0, HALF_PI, PI]; // 4 frogs
 
   frogRingRadius = pondRadius + 70;
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 4; i++) {
     frogs.push(makeFrog(angles[i], i === playerIndex));
   }
 }
@@ -115,13 +115,16 @@ function makeFly() {
 // drawloop
 
 function draw() {
-  if (state === "instructions") {
+  if (gameState === "instructions") {
     mouseHover();
     drawInstructions();
-  } else if (state === "play") {
+  } else if (gameState === "play") {
     drawGame();
+  } else if (gameState === "end") {
+    drawEndScreen();
   }
 }
+
 function drawGame() {
   background(bgColor);
 
@@ -133,7 +136,20 @@ function drawGame() {
   drawFrogs();
   drawScoreboard();
 }
-
+function resetGame() {
+  // reset scores
+  for (let f of frogs) {
+    f.score = 0;
+    f.tongue.length = 0;
+    f.tongue.state = "idle";
+  }
+  // reset flies
+  flies = [];
+  for (let i = 0; i < 6; i++) {
+    flies.push(makeFly());
+  }
+  gameState = "play";
+}
 //functions
 
 function drawPond() {
@@ -160,8 +176,8 @@ function drawInstructions() {
   textFont(font2);
   textWrap(WORD);
   text(
-    "Move your frog by clicking on the open lily pads around the pond. Time your jumps carefully, the flies won’t stay in one place for long! When a fly gets close enough, press the Z key to use your tongue and grab it. Each fly you catch brings you closer to victory.\n\n" +
-      "Catch all 6 flies to win the game. Stay quick, stay alert, and good luck!",
+    "The goal is to eat as many flies as you can, press the 'z' key to active the frogs tongue! Th first to 12 wins don't be slow. Each fly you catch brings you closer to victory.\n\n" +
+      "Stay quick, stay alert, and good luck!",
     40,
     150,
     350
@@ -216,6 +232,7 @@ function drawFrogs() {
   }
 }
 
+//fliees//
 function drawFlies() {
   noStroke();
   fill(0);
@@ -225,21 +242,19 @@ function drawFlies() {
     ellipse(p.x, p.y, fly.size);
   }
 }
-
+//scoreboard//
 function drawScoreboard() {
   push();
   textAlign(LEFT, TOP);
+  textFont(font2);
   textSize(18);
   fill(255);
-
-  text("Hungry Frogs – first to " + winningScore + " wins", 20, 20);
-  text("Press Z to use your tongue", 20, 45);
 
   let playerScore = frogs[playerIndex].score;
   let enemyScore = frogs[0].score + frogs[1].score + frogs[3].score;
 
-  text("Your score: " + playerScore, 20, 80);
-  text("Other frogs: " + enemyScore, 20, 105);
+  text("Your score: " + playerScore, 20, 30);
+  text("Other frogs: " + enemyScore, 700, 30);
   pop();
 }
 
@@ -424,20 +439,14 @@ function keyPressed() {
     }
   }
 }
-
-function mousePressed() {
-  if (gameState === "end") {
-    flies = [];
-    setupFrogs();
-    for (let i = 0; i < 6; i++) {
-      flies.push(makeFly());
-    }
-    gameState = "play";
+function checkWin(frog) {
+  if (frog.score >= winningScore && gameState === "play") {
+    gameState = "end";
   }
 }
 
 function mouseHover() {
-  if (state === "instructions") {
+  if (gameState === "instructions") {
     const left = startbuttonR.x - startbuttonR.width / 2;
     const right = startbuttonR.x + startbuttonR.width / 2;
     const top = startbuttonR.y - startbuttonR.height / 2;
@@ -453,7 +462,8 @@ function mouseHover() {
   }
 }
 function mousePressed() {
-  if (state === "instructions") {
+  // from instructions → start game
+  if (gameState === "instructions") {
     const left = startbuttonR.x - startbuttonR.width / 2;
     const right = startbuttonR.x + startbuttonR.width / 2;
     const top = startbuttonR.y - startbuttonR.height / 2;
@@ -461,8 +471,14 @@ function mousePressed() {
 
     if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
       resetGame();
-      state = "game";
-      return;
+      gameState = "play";
     }
+    return;
+  }
+
+  // from end screen → restart
+  if (gameState === "end") {
+    resetGame();
+    return;
   }
 }

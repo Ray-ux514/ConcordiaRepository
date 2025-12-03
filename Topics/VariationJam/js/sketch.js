@@ -264,8 +264,8 @@ function drawInstructions() {
   textFont(font2);
   textWrap(WORD);
   text(
-    "Move your frog by clicking on the open lily pads around the pond. Time your jumps carefully, the flies won’t stay in one place for long! When a fly gets close enough, press the Z key to use your tongue and grab it. Each fly you catch brings you closer to victory.\n\n" +
-      "Catch all 6 flies to win the game. Stay quick, stay alert, and good luck!",
+    "Move the frog by using the arrow keys 'UP, DOWN, LEFT, RIGHT' to control the frogs movement.\n\n" +
+      "Catch all 8 flies before the timer runs out to win the game . Stay quick, stay alert, and good luck!",
     40,
     150,
     350
