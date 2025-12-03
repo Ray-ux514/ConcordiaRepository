@@ -330,6 +330,13 @@ function drawWin() {
   textSize(20);
   text("Click to return to the menu", width / 2, height / 2 + 40);
 }
+function resetGame();
+score = 0;
+gameWin = false;
+timeUp = false;
+levelStartTime = millis();
+animatedProgress = bar.w;
+
 
 //MAIN DRAW LOOP
 
