@@ -261,10 +261,6 @@ function drawScoreboard() {
 function drawEndScreen() {
   background(bgColor);
 
-  // dark overlay
-  fill(0, 0, 0, 150);
-  rect(0, 0, width, height);
-
   textAlign(CENTER, CENTER);
   textFont(font1);
   textSize(48);

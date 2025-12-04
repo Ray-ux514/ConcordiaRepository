@@ -200,7 +200,11 @@ function drawTimeUpMessage() {
   textSize(32);
   text("Time’s up!", width / 2, height / 2 - 10);
   textSize(18);
-  text("Press R to restart", width / 2, height / 2 + 24);
+  text(
+    "Press R to restart or Press Q to quit and return to the menu",
+    width / 2,
+    height / 2 + 24
+  );
   pop();
 }
 
@@ -218,8 +222,9 @@ function keyPressed(event) {
     return;
   }
 
-  if (timeUp) return; // no movement while time is up
-
+  if (timeUp && key == "q") {
+    window.location.href = "index.html";
+  }
   if (event.key === "ArrowRight") {
     player.x += STEP_SIZE;
     player.angle = -HALF_PI; // face right

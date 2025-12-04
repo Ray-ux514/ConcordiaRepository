@@ -10,6 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   hungryBtn.addEventListener("click", () => {
+    console.log;
     window.location.href = "hungryFrogs.html"; //frogs game page
   });
 
