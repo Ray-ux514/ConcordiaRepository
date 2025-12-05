@@ -1,26 +1,33 @@
 # Planning
 
+Using first frog game and bulding off of it// creating a platform with multiple frog games
+
 ## Starting point
 
 The initial idea:
 
-> Frog eating flies
+- Frog eating flies
+- Hungry Hungry Hipppo inspo game
+- SNakes and ladder inspo game
+- card flip insporation game
+- Frog run/frogs racing eacher
 
 ## Experience design
 
 The experience:
 
-> The user controls a frog at the bottom of the screen, they can shoot out the frog's tongue and catch a fly which is moving on the screen. If the tongue hits the fly it gets eaten.
+> The user would start on a landing page which game options to chose from. After picking the game option the user is met with a set of clear intructions before playing the game, than the user will be giving the option to start the game.
 
 ## Breaking it down
 
 Basic things to do:
 
-- Draw the frog (image?)
-- Draw the tongue...
-- Move the frog (how? mouse? keyboard? breathing?)
-- Move the fly ( buzzing around? random?)
-- Figure out if the tongue hits the fly?
+- Create the landing page using Html
+- Finalize visuals/ frog/lily pad/lostus
+- Friggering frog movements
+- Deciide on the length of each game
+- Figure out The hungry hippo game search for references and inspo
+- Css animations considerations
 
 Questions:
 
