@@ -30,6 +30,7 @@ let lotusNormal;
 let lotusDiffImgs = []; // 3 different lotus variations
 let font1;
 let font2;
+let gameSound;
 let startbuttonImg;
 let startbuttonHoverImg;
 let startbuttonCurrent;
@@ -47,11 +48,25 @@ function preload() {
   lotusDiffImgs[0] = loadImage("assets/images/lotus_diff1.png");
   lotusDiffImgs[1] = loadImage("assets/images/lotus_diff2.png");
   lotusDiffImgs[2] = loadImage("assets/images/lotus_diff3.png");
+  gameSound = loadSound("assets/sounds/gamesound2.mp3");
 
   font1 = loadFont("assets/fonts/ABCMaxiPlusVariable-Trial.ttf");
   font2 = loadFont("assets/fonts/ABCGinto-Regular-Trial.otf");
   startbuttonImg = loadImage("assets/images/start_default.png");
   startbuttonHoverImg = loadImage("assets/images/start_hover.png");
+}
+// === SOUND HELPERS ===
+function startGameMusic() {
+  if (gameSound && !gameSound.isPlaying()) {
+    gameSound.setVolume(0.25);
+    gameSound.loop();
+  }
+}
+
+function stopGameMusic() {
+  if (gameSound && gameSound.isPlaying()) {
+    gameSound.stop();
+  }
 }
 
 // =====================
@@ -252,18 +267,21 @@ function mousePressed() {
     if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
       resetGame();
       state = "playing";
+      startGameMusic();
       return;
     }
   }
 
   // WIN → go back to menu
   if (state === "won") {
+    stopGameMusic(); // stop before leaving
     window.location.href = "index.html";
     return;
   }
 
   // LOST → restart game
   if (state === "lost") {
+    stopGameMusic(); // stop before leaving
     resetGame();
     state = "playing";
     return;
@@ -360,6 +378,7 @@ function drawWin() {
 
 function keyPressed() {
   if (key === "q" && state == "lost") {
+    stopGameMusic();
     window.location.href = "index.html";
   }
 }

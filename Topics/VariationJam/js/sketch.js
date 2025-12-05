@@ -350,7 +350,7 @@ function mousePressed() {
 
       // 🔊 start music here (only once, when game starts)
       if (gameSound && !gameSound.isPlaying()) {
-        gameSound.setVolume(0.25); // 0.0–1.0
+        gameSound.setVolume(0.35); // 0.0–1.0
         gameSound.loop();
       }
       return;

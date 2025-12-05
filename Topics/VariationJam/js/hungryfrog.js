@@ -124,7 +124,7 @@ function draw() {
     drawEndScreen();
   }
 }
-
+//game
 function drawGame() {
   background(bgColor);
 
@@ -176,7 +176,7 @@ function drawInstructions() {
   textFont(font2);
   textWrap(WORD);
   text(
-    "The goal is to eat as many flies as you can, press the 'z' key to active the frogs tongue! The first to 12 wins don't be slow. Each fly you catch brings you closer to victory.\n\n" +
+    "The goal is to eat as many flies as you can, press the 'z' key to active the frogs tongue! The first to 12 wins, don't be slow. Each fly you catch brings you closer to victory.\n\n" +
       "Stay quick, stay alert, and good luck!",
     40,
     150,
@@ -257,7 +257,7 @@ function drawScoreboard() {
   text("Other frogs: " + enemyScore, 700, 30);
   pop();
 }
-
+//end screen
 function drawEndScreen() {
   background(bgColor);
 
@@ -383,7 +383,7 @@ function updateFlies() {
     }
   }
 }
-
+//verity tongue
 function checkTongueHits() {
   for (let fly of flies) {
     if (!fly.alive) continue;
@@ -443,7 +443,7 @@ function keyPressed() {
     }
   }
 }
-
+//hover
 function mouseHover() {
   if (gameState === "instructions") {
     const left = startbuttonR.x - startbuttonR.width / 2;
