@@ -208,7 +208,7 @@ function drawFrogs() {
     let mouth = frogMouthPosition(f);
     let tongueTip = frogTongueTip(f);
 
-    // --- TONGUE (still works the same) ---
+    // --- TONGUE
     if (f.tongue.length > 0) {
       stroke("#d47171");
       strokeWeight(8);
@@ -218,7 +218,7 @@ function drawFrogs() {
       ellipse(tongueTip.x, tongueTip.y, 16);
     }
 
-    // --- FROG IMAGE (simple like your flowers) ---
+    // --- FROG IMAGE ---
     let img = frogImgs[i] || frogImgs[0];
 
     let frogW = 110; // width of frog image on screen

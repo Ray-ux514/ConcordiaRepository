@@ -18,3 +18,10 @@ window.addEventListener("DOMContentLoaded", () => {
     window.location.href = "lotusbloom.html"; // lotus game page
   });
 });
+document.body.addEventListener(
+  "click",
+  () => {
+    document.getElementById("bgmusic").play();
+  },
+  { once: true }
+);
