@@ -213,7 +213,7 @@ function drawTimeUpMessage() {
 // ===== INPUT / MOVEMENT =====
 
 function keyPressed(event) {
-  // restart when time is up
+  // RESTART when time is up
   if (timeUp && (key === "r" || key === "R")) {
     score = 0;
     gameWin = false;
@@ -224,19 +224,31 @@ function keyPressed(event) {
     return;
   }
 
-  if (timeUp && key == "q") {
+  // QUIT to menu when time is up
+  if (timeUp && (key === "q" || key === "Q")) {
+    if (gameSound && gameSound.isPlaying()) {
+      gameSound.stop();
+    }
     window.location.href = "index.html";
+    return;
   }
-  if (event.key === "d") {
+
+  // If time is up or still on instructions, don't move the frog
+  if (timeUp || state !== "game") {
+    return;
+  }
+
+  // MOVEMENT: wasd
+  if (event.key === "d" || event.key === "D") {
     player.x += STEP_SIZE;
     player.angle = -HALF_PI; // face right
-  } else if (event.key === "a") {
+  } else if (event.key === "a" || event.key === "A") {
     player.x -= STEP_SIZE;
     player.angle = HALF_PI; // face left
-  } else if (event.key === "w") {
+  } else if (event.key === "w" || event.key === "W") {
     player.y -= STEP_SIZE;
     player.angle = PI; // face up
-  } else if (event.key === "s") {
+  } else if (event.key === "s" || event.key === "S") {
     player.y += STEP_SIZE;
     player.angle = 0; // face down
   } else {
@@ -252,14 +264,13 @@ function keyPressed(event) {
   const d = dist(player.x, player.y, fly.x, fly.y);
   if (d < (player.size + fly.size) / 2) {
     score++;
-    eatFlySound.setVolume(0.1); // lower this sound
+    eatFlySound.setVolume(0.1);
     eatFlySound.play();
-    // WIN CONDITION — 8 bugs before time runs out
+
     if (score >= 8 && !timeUp) {
       gameWin = true;
       timeUp = true; // freeze game
     } else {
-      // spawn next fly normally
       spawnFly();
     }
   }
@@ -326,6 +337,7 @@ function mouseHover() {
 }
 
 function mousePressed() {
+  // CLICK ON START BUTTON -> START GAME + MUSIC
   if (state === "instructions") {
     const left = startbuttonR.x - startbuttonR.width / 2;
     const right = startbuttonR.x + startbuttonR.width / 2;
@@ -335,11 +347,21 @@ function mousePressed() {
     if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
       resetGame();
       state = "game";
+
+      // 🔊 start music here (only once, when game starts)
+      if (gameSound && !gameSound.isPlaying()) {
+        gameSound.setVolume(0.25); // 0.0–1.0
+        gameSound.loop();
+      }
       return;
     }
   }
-  // ===== WIN SCREEN CLICK → RETURN TO MENU =====
+
+  // WIN SCREEN CLICK → RETURN TO MENU
   if (gameWin && timeUp) {
+    if (gameSound && gameSound.isPlaying()) {
+      gameSound.stop(); // stop background music
+    }
     window.location.href = "index.html";
   }
 }

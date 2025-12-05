@@ -21,7 +21,9 @@ window.addEventListener("DOMContentLoaded", () => {
 document.body.addEventListener(
   "click",
   () => {
-    document.getElementById("bgmusic").play();
+    const music = document.getElementById("bgmusic");
+    music.volume = 0.1;
+    music.play();
   },
   { once: true }
 );
