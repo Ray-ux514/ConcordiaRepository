@@ -225,16 +225,16 @@ function keyPressed(event) {
   if (timeUp && key == "q") {
     window.location.href = "index.html";
   }
-  if (event.key === "ArrowRight") {
+  if (event.key === "d") {
     player.x += STEP_SIZE;
     player.angle = -HALF_PI; // face right
-  } else if (event.key === "ArrowLeft") {
+  } else if (event.key === "a") {
     player.x -= STEP_SIZE;
     player.angle = HALF_PI; // face left
-  } else if (event.key === "ArrowUp") {
+  } else if (event.key === "w") {
     player.y -= STEP_SIZE;
     player.angle = PI; // face up
-  } else if (event.key === "ArrowDown") {
+  } else if (event.key === "s") {
     player.y += STEP_SIZE;
     player.angle = 0; // face down
   } else {
@@ -273,12 +273,12 @@ function drawInstructions() {
   text("INSTRUCTIONS", 40, 100);
 
   //instructions text//
-  textSize(20);
+  textSize(23);
   textFont(font2);
   textWrap(WORD);
   text(
-    "Move the frog by using the arrow keys 'UP, DOWN, LEFT, RIGHT' to control the frogs movement.\n\n" +
-      "Catch all 8 flies before the timer runs out to win the game . Stay quick, stay alert, and good luck!",
+    "Move the frog by using these UP,'W', DOWN 'S', LEFT 'A', RIGHT 'D' to control the frogs movement.\n\n" +
+      "Catch all 8 flies before the timer runs out to win the game. Stay quick, stay alert, and good luck!",
     40,
     150,
     350
@@ -286,7 +286,7 @@ function drawInstructions() {
 
   //bluefrog//
   push();
-  image(bluefrog, 660, 230, 95, 90);
+  image(bluefrog, 660, 230, 135, 130);
   pop();
 
   //backbutton
@@ -341,12 +341,12 @@ function mousePressed() {
 //win message//
 function drawWin() {
   if (!gameWin) return;
-  background("#06464a");
-  fill("#ce2a4d");
+  background("#4a7636");
+  fill("#ffffff");
   textAlign(CENTER, CENTER);
   textFont(font1);
   textSize(48);
-  text("YOU WIN!", width / 2, height / 2 - 20);
+  text("CONGRATULATIONS YOU WIN!", width / 2, height / 2 - 20);
   fill("#ffffff");
 
   textSize(20);
