@@ -264,7 +264,7 @@ function keyPressed(event) {
   const d = dist(player.x, player.y, fly.x, fly.y);
   if (d < (player.size + fly.size) / 2) {
     score++;
-    eatFlySound.setVolume(0.1);
+    eatFlySound.setVolume(0.2);
     eatFlySound.play();
 
     if (score >= 8 && !timeUp) {
@@ -374,13 +374,12 @@ function drawWin() {
   textAlign(CENTER, CENTER);
   textFont(font1);
   textSize(48);
-  text("CONGRATULATIONS", width / 2, height / 2 - 30);
 
-  text("YOU WIN!", width / 2, height / 2 + 20);
+  text("YOU WIN!", width / 2, height / 2 - 10);
   fill("#ffffff");
 
   textSize(20);
-  text("Click to return to the menu", width / 2, height / 2 + 70);
+  text("Click to return to the menu", width / 2, height / 2 - 30);
 }
 function resetGame() {
   score = 0;

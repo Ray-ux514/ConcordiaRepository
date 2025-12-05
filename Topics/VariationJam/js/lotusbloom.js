@@ -43,6 +43,7 @@ let state = "instructions"; // "playing" | "won" | "lost"
 let gameStartTime = 0;
 let foundCount = 0;
 
+// --- ASSETS ---
 function preload() {
   lotusNormal = loadImage("assets/images/lotus.png");
   lotusDiffImgs[0] = loadImage("assets/images/lotus_diff1.png");
@@ -199,6 +200,8 @@ function drawLotuses() {
     }
   }
 }
+// --- INSTRUCTIONS ---
+
 function drawInstructions() {
   background("#ffc848");
 

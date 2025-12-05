@@ -14,6 +14,8 @@ let font2;
 let startbuttonImg;
 let startbuttonHoverImg;
 let startbuttonCurrent;
+let gameSound;
+let eatFlySound;
 
 let centerX, centerY;
 let pondRadius = 120;
@@ -29,7 +31,7 @@ let frogRingRadius; // distance of frogs from center
 
 // flies
 let flies = [];
-let winningScore = 12; // first frog to reach 6 flies wins
+let winningScore = 24; // first frog to reach 6 flies wins
 
 //star button
 const startbuttonR = {
@@ -55,8 +57,25 @@ function preload() {
   frogImgs[1] = loadImage("assets/images/bluefrog.png");
   frogImgs[2] = loadImage("assets/images/frog.png"); // player
   frogImgs[3] = loadImage("assets/images/yellowfrog.png");
+
+  //sound//
+  gameSound = loadSound("assets/sounds/Donkey.mp3");
+  eatFlySound = loadSound("assets/sounds/eatfly.mp3");
 }
 
+// === SOUND HELPERS ===
+function startGameMusic() {
+  if (gameSound && !gameSound.isPlaying()) {
+    gameSound.setVolume(0.25); // softer bg music
+    gameSound.loop();
+  }
+}
+
+function stopGameMusic() {
+  if (gameSound && gameSound.isPlaying()) {
+    gameSound.stop();
+  }
+}
 function setup() {
   createCanvas(850, 500);
   centerX = width / 2;
@@ -86,18 +105,20 @@ function setupFrogs() {
 }
 
 function makeFrog(angle, isPlayer) {
-  return {
-    angle: angle,
-    radius: frogRingRadius,
-    isPlayer: isPlayer,
-    score: 0,
-    tongue: {
-      length: 0,
-      maxLength: isPlayer ? 180 : 140, // player gets longer tongue
-      speed: isPlayer ? 22 : 16, // player tongue moves faster
-      state: "idle",
-    },
-  };
+  {
+    return {
+      angle: angle,
+      radius: frogRingRadius,
+      isPlayer: isPlayer,
+      score: 0,
+      tongue: {
+        length: 0,
+        maxLength: isPlayer ? 180 : 160, // enemies a bit closer to you
+        speed: isPlayer ? 22 : 18, // still give you an edge
+        state: "idle",
+      },
+    };
+  }
 }
 
 // Flies now spawn from the CENTER and move outward
@@ -342,11 +363,11 @@ function updateFrogs() {
       }
     }
 
-    // weaker reaction
+    // make enemies a bit better, but still weaker than player
     if (!f.isPlayer && f.tongue.state === "idle") {
-      let closeFly = nearestFlyForFrog(f, 18); // narrower window
-      if (closeFly && random() < 0.12) {
-        // much lower chance
+      let closeFly = nearestFlyForFrog(f, 24); // see a bit more space
+      if (closeFly && random() < 0.2) {
+        // higher chance to react
         f.tongue.state = "outbound";
       }
     }
@@ -383,7 +404,6 @@ function updateFlies() {
     }
   }
 }
-//verity tongue
 function checkTongueHits() {
   for (let fly of flies) {
     if (!fly.alive) continue;
@@ -398,9 +418,39 @@ function checkTongueHits() {
       if (d < 15) {
         fly.alive = false;
         f.score++;
-        checkWin(f); // check if this frog wins
-        break;
+
+        // 🔊 play eating sound (louder for player)
+        if (eatFlySound) {
+          if (f.isPlayer) {
+            eatFlySound.setVolume(0.15);
+            eatFlySound.play();
+          }
+
+          checkWin(f); // check if this frog wins
+          break;
+        }
       }
+    }
+  }
+}
+
+//verity tonguefunction checkTongueHits() {
+for (let fly of flies) {
+  if (!fly.alive) continue;
+
+  let flyPos = flyPosition(fly);
+
+  for (let f of frogs) {
+    if (f.tongue.length <= 0) continue;
+
+    let tip = frogTongueTip(f);
+    let d = dist(flyPos.x, flyPos.y, tip.x, tip.y);
+    if (d < 15) {
+      fly.alive = false;
+      f.score++;
+
+      checkWin(f); // check if this frog wins
+      break;
     }
   }
 }
@@ -431,7 +481,7 @@ function angleDifference(a, b) {
   return d > PI ? TWO_PI - d : d;
 }
 
-//input
+// --- KEY-PRESSED ---
 function keyPressed() {
   if (gameState !== "play") return;
 
@@ -443,7 +493,7 @@ function keyPressed() {
     }
   }
 }
-//hover
+// --- HOVER ---
 function mouseHover() {
   if (gameState === "instructions") {
     const left = startbuttonR.x - startbuttonR.width / 2;
@@ -470,6 +520,8 @@ function mousePressed() {
 
     if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
       resetGame();
+      startGameMusic(); // start bg
+
       gameState = "play";
     }
     return;
@@ -488,6 +540,7 @@ function mousePressed() {
     return;
   }
 }
+// --- WIN--CHECK-
 
 function checkWin(frog) {
   if (frog.score >= winningScore && gameState === "play") {
@@ -498,6 +551,7 @@ function checkWin(frog) {
 function keyPressed() {
   // Q to quit to index from anywhere
   if (key === "q" || key === "Q") {
+    stopGameMusic(); // stop bg music
     window.location.href = "index.html";
     return;
   }
