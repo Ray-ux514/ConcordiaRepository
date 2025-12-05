@@ -11,11 +11,11 @@ const ROWS = 3;
 const TOTAL_LOTUSES = COLS * ROWS;
 const DIFFERENT_COUNT = 3;
 const LOTUS_SIZE = {
-  width: 90,
-  height: 113,
+  width: 110,
+  height: 133,
 };
 const CLICK_RADIUS = 60; // for hit test
-const GAME_TIME = 30; // seconds
+const GAME_TIME = 40; // seconds
 //star button
 const startbuttonR = {
   x: 660,
@@ -82,8 +82,8 @@ function resetGame() {
   lotuses = [];
 
   // grid positions
-  const marginX = 180;
-  const marginY = 135;
+  const marginX = 160;
+  const marginY = 130;
   const spacingX = (width - marginX * 2) / (COLS - 1);
   const spacingY = (height - marginY * 2) / (ROWS - 1);
 
@@ -194,11 +194,11 @@ function drawInstructions() {
   text("INSTRUCTIONS", 40, 100);
 
   //instructions text//
-  textSize(20);
+  textSize(23);
   textFont(font2);
   textWrap(WORD);
   text(
-    "Spot the 3 lotus flowers that look different from the rest. You have 30 seconds.\n\n" +
+    "Spot the 3 lotus flowers that look different from the rest. You have 40 seconds.\n\n" +
       "Click on a lotus to select it. If it's one of the odd ones, it will glow.\n\n" +
       "Find all 3 before time runs out!",
     40,
@@ -320,7 +320,7 @@ function drawHUD() {
   // found counter
   textAlign(RIGHT, TOP);
   textSize(18);
-  text(`Found: ${foundCount} / ${DIFFERENT_COUNT}`, width - 40, 60);
+  text(`Found: ${foundCount} / ${DIFFERENT_COUNT}`, width - 40, 460);
 
   // big transparent number
   push();

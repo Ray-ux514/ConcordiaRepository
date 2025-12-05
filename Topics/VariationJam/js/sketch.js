@@ -31,6 +31,7 @@ let startbuttonImg;
 let startbuttonHoverImg;
 let startbuttonCurrent;
 let currentColor;
+let keyboardimg;
 //sound//
 let gameSound;
 let eatFlySound;
@@ -78,6 +79,7 @@ function preload() {
   font2 = loadFont("assets/fonts/ABCGinto-Regular-Trial.otf");
   startbuttonImg = loadImage("assets/images/start_default.png");
   startbuttonHoverImg = loadImage("assets/images/start_hover.png");
+  keyboardimg = loadImage("assets/images/keyboard.png");
   //sound//
   gameSound = loadSound("assets/sounds/gamesound.mp3");
   eatFlySound = loadSound("assets/sounds/eatfly.mp3");
@@ -162,7 +164,7 @@ function drawBigScore() {
 
 function drawTimerBar() {
   // how much time left
-  let elapsed = (millis() - levelStartTime) / 1500;
+  let elapsed = (millis() - levelStartTime) / 1800;
   let remaining = max(0, TIME_LIMIT - elapsed);
 
   // when it hits 0, mark timeUp
@@ -286,7 +288,11 @@ function drawInstructions() {
 
   //bluefrog//
   push();
-  image(bluefrog, 660, 230, 135, 130);
+  image(keyboardimg, 530, 230, 192, 126);
+  pop();
+  //bluefrog//
+  push();
+  image(bluefrog, 760, 230, 135, 130);
   pop();
 
   //backbutton
@@ -346,11 +352,13 @@ function drawWin() {
   textAlign(CENTER, CENTER);
   textFont(font1);
   textSize(48);
-  text("CONGRATULATIONS YOU WIN!", width / 2, height / 2 - 20);
+  text("CONGRATULATIONS", width / 2, height / 2 - 30);
+
+  text("YOU WIN!", width / 2, height / 2 + 20);
   fill("#ffffff");
 
   textSize(20);
-  text("Click to return to the menu", width / 2, height / 2 + 40);
+  text("Click to return to the menu", width / 2, height / 2 + 70);
 }
 function resetGame() {
   score = 0;

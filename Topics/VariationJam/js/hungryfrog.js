@@ -172,11 +172,11 @@ function drawInstructions() {
   text("INSTRUCTIONS", 40, 100);
 
   //instructions text//
-  textSize(20);
+  textSize(23);
   textFont(font2);
   textWrap(WORD);
   text(
-    "The goal is to eat as many flies as you can, press the 'z' key to active the frogs tongue! Th first to 12 wins don't be slow. Each fly you catch brings you closer to victory.\n\n" +
+    "The goal is to eat as many flies as you can, press the 'z' key to active the frogs tongue! The first to 12 wins don't be slow. Each fly you catch brings you closer to victory.\n\n" +
       "Stay quick, stay alert, and good luck!",
     40,
     150,
@@ -185,7 +185,7 @@ function drawInstructions() {
 
   //bluefrog//
   push();
-  image(frogImgs[2], 660, 230, 95, 90);
+  image(frogImgs[2], 660, 230, 135, 130);
   pop();
 
   //backbutton
