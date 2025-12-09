@@ -127,8 +127,8 @@ function makeFly() {
   return {
     angle: angle,
     r: 0, // start at center
-    speed: random(1.5, 2.5), // move outward
-    size: 10,
+    speed: random(3.0, 4.2), // move outward
+    size: 12,
     alive: true,
   };
 }
