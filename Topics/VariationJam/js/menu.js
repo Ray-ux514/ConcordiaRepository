@@ -6,12 +6,12 @@ window.addEventListener("DOMContentLoaded", () => {
   const lotusBtn = document.getElementById("btn-lotus");
 
   collectBtn.addEventListener("click", () => {
-    window.location.href = "frogCollect.html"; //frog collect game page
+    window.location.href = "frogcollect.html"; //frog collect game page
   });
 
   hungryBtn.addEventListener("click", () => {
     console.log;
-    window.location.href = "hungryFrogs.html"; //frogs game page
+    window.location.href = "hungryfrogs.html"; //frogs game page
   });
 
   lotusBtn.addEventListener("click", () => {
