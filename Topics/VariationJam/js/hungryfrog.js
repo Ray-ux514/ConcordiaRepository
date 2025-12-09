@@ -31,7 +31,7 @@ let frogRingRadius; // distance of frogs from center
 
 // flies
 let flies = [];
-let winningScore = 32; // first frog to reach 6 flies wins
+let winningScore = 24; // first frog to reach 6 flies wins
 
 //star button
 const startbuttonR = {
@@ -300,7 +300,7 @@ function drawEndScreen() {
   textFont(font2);
   textSize(22);
   text(
-    "You: " + playerScore + " Other frogs: " + enemyScore,
+    "You: " + playerScore + "   •   Other frogs: " + enemyScore,
     width / 2,
     height / 2
   );
@@ -365,7 +365,7 @@ function updateFrogs() {
 
     // make enemies a bit better, but still weaker than player
     if (!f.isPlayer && f.tongue.state === "idle") {
-      let closeFly = nearestFlyForFrog(f, 32); // see a bit more space
+      let closeFly = nearestFlyForFrog(f, 24); // see a bit more space
       if (closeFly && random() < 0.2) {
         // higher chance to react
         f.tongue.state = "outbound";
