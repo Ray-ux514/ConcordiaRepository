@@ -409,48 +409,35 @@ function checkTongueHits() {
     if (!fly.alive) continue;
 
     let flyPos = flyPosition(fly);
+    let eaten = false; // make sure each fly only counts once
 
     for (let f of frogs) {
       if (f.tongue.length <= 0) continue;
 
       let tip = frogTongueTip(f);
       let d = dist(flyPos.x, flyPos.y, tip.x, tip.y);
+
       if (d < 15) {
+        // fly is eaten
         fly.alive = false;
-        f.score++;
+        f.score += 2;
 
-        // 🔊 play eating sound (louder for player)
-        if (eatFlySound) {
-          if (f.isPlayer) {
-            eatFlySound.setVolume(0.15);
-            eatFlySound.play();
-          }
-
-          checkWin(f); // check if this frog wins
-          break;
+        // 🔊 soft, short eat sound (for player only)
+        if (eatFlySound && f.isPlayer) {
+          eatFlySound.stop(); // avoid weird overlap
+          eatFlySound.setVolume(0.1); // quiet
+          eatFlySound.play();
         }
+
+        checkWin(f);
+        eaten = true;
+        break; // stop checking other frogs for this fly
       }
     }
-  }
-}
 
-//verity tonguefunction checkTongueHits() {
-for (let fly of flies) {
-  if (!fly.alive) continue;
-
-  let flyPos = flyPosition(fly);
-
-  for (let f of frogs) {
-    if (f.tongue.length <= 0) continue;
-
-    let tip = frogTongueTip(f);
-    let d = dist(flyPos.x, flyPos.y, tip.x, tip.y);
-    if (d < 15) {
-      fly.alive = false;
-      f.score++;
-
-      checkWin(f); // check if this frog wins
-      break;
+    if (eaten) {
+      // go to next fly
+      continue;
     }
   }
 }
