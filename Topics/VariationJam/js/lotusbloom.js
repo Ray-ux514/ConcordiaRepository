@@ -367,7 +367,7 @@ function drawEndMessage(msg) {
 }
 function drawWin() {
   background("#ffc848");
-
+  noStroke();
   fill("#ffffff");
   textAlign(CENTER, CENTER);
   textFont(font1);

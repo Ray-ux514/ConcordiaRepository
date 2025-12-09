@@ -370,6 +370,7 @@ function mousePressed() {
 function drawWin() {
   if (!gameWin) return;
   background("#4a7636");
+  noStroke();
   fill("#ffffff");
   textAlign(CENTER, CENTER);
   textFont(font1);
@@ -379,7 +380,7 @@ function drawWin() {
   fill("#ffffff");
 
   textSize(20);
-  text("Click to return to the menu", width / 2, height / 2 - 30);
+  text("Click to return to the menu", width / 2, height / 2 + 40);
 }
 function resetGame() {
   score = 0;
