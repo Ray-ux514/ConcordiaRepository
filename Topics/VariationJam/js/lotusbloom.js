@@ -1,7 +1,19 @@
 // ==========================
 // LOTUS BLOOM – SPOT THE DIFFERENCE
 // ==========================
+/**
+ */
 
+/**
+
+ * Rayvhaun D-Gordon
+ * Instructions:
+ * - You have 30 to find the 3 different lotus flowers 
+ *
+ * Made with p5 a
+ * https://p5js.org/
+ * 
+ */
 "use strict";
 // --- CONFIG ---
 const CANVAS_W = 850;
@@ -27,7 +39,7 @@ const startbuttonR = {
 
 // --- ASSETS ---
 let lotusNormal;
-let lotusDiffImgs = []; // 3 different lotus variations
+let lotusDiffImgs = []; // 3 different lotus variations// Array
 let font1;
 let font2;
 let gameSound;
@@ -56,7 +68,7 @@ function preload() {
   startbuttonImg = loadImage("assets/images/start_default.png");
   startbuttonHoverImg = loadImage("assets/images/start_hover.png");
 }
-// === SOUND HELPERS ===
+// === SOUND ===
 function startGameMusic() {
   if (gameSound && !gameSound.isPlaying()) {
     gameSound.setVolume(0.25);
@@ -69,10 +81,7 @@ function stopGameMusic() {
     gameSound.stop();
   }
 }
-
-// =====================
 // SETUP + RESET
-// =====================
 function setup() {
   createCanvas(CANVAS_W, CANVAS_H);
   imageMode(CENTER);
@@ -114,7 +123,7 @@ function resetGame() {
     }
   }
 
-  // pick which indices will be the “different” ones
+  // indices will be the “different” ones
   let indices = [];
   for (let i = 0; i < TOTAL_LOTUSES; i++) {
     indices.push(i);
@@ -242,7 +251,7 @@ function drawInstructions() {
   );
   pop();
 }
-
+// ====INTERACTIONS===//
 function mouseHover() {
   if (state === "instructions") {
     const left = startbuttonR.x - startbuttonR.width / 2;
@@ -290,7 +299,6 @@ function mousePressed() {
     return;
   }
 
-  // only click-detect lotuses while playing
   if (state !== "playing") return;
 
   // check clicks from top-most down

@@ -1,7 +1,22 @@
 /**
- * Frog Collecting – timer bar + big score
+ * Frog Collector- like snakes
+ */
+/**
+ * Hungry Hungry Frogs – center-spawn 
+ * Flies spawn in the middle and move outward.
+ press Z to eat flies.
  */
 
+/**
+
+ * Rayvhaun D-Gordon
+ * Instructions:
+ * - USE W,D,S,A key to move
+ * - Catch 8 flies before the timer runs out and you win
+ * Made with p5 a
+ * https://p5js.org/
+ * Thank you Sabine for the code to help me start!
+ */
 "use strict";
 let state = "instructions";
 // ===== GRID + CANVAS =====
@@ -9,7 +24,7 @@ const STEP_SIZE = 62;
 const CANVAS_W = 850;
 const CANVAS_H = 500;
 
-// bar + grid layout
+//===== bar + grid layout=====
 const BAR_MARGIN_X = 30;
 const BAR_MARGIN_Y = 18;
 const BAR_HEIGHT = 32;
@@ -51,7 +66,7 @@ let fly = {
   y: 0,
   size: 20,
 };
-//star button
+//=====star button=====
 const startbuttonR = {
   x: 660,
   y: 380,
@@ -64,7 +79,7 @@ let x_is_even = true;
 let cols, rows;
 let score = 0;
 
-// progress bar state
+// =====progress bar state=====
 let bar = {
   x: BAR_MARGIN_X,
   y: BAR_MARGIN_Y,
@@ -163,7 +178,7 @@ function drawBigScore() {
 }
 
 function drawTimerBar() {
-  // how much time left
+  // ===== BAR TIMER =====
   let elapsed = (millis() - levelStartTime) / 1800;
   let remaining = max(0, TIME_LIMIT - elapsed);
 
@@ -275,7 +290,7 @@ function keyPressed(event) {
     }
   }
 }
-
+//===== INTRUCTIONS=====//
 function drawInstructions() {
   background("#4a7636");
 
@@ -319,6 +334,7 @@ function drawInstructions() {
   );
   pop();
 }
+//=====INTERACTIONS=====//
 function mouseHover() {
   if (state === "instructions") {
     const left = startbuttonR.x - startbuttonR.width / 2;
@@ -366,7 +382,7 @@ function mousePressed() {
   }
 }
 
-//win message//
+//=====win message=====//
 function drawWin() {
   if (!gameWin) return;
   background("#4a7636");
@@ -397,7 +413,7 @@ function resetGame() {
   spawnFly();
 }
 
-//MAIN DRAW LOOP
+//=====MAIN DRAW LOOP=====//
 
 function drawGame() {
   background("#4a7636");

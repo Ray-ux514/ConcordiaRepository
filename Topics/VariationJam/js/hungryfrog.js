@@ -1,7 +1,19 @@
 /**
- * Hungry Hungry Frogs – center-spawn version
+ * Hungry Hungry Frogs – center-spawn 
  * Flies spawn in the middle and move outward.
  press Z to eat flies.
+ */
+
+/**
+
+ * Rayvhaun D-Gordon
+ * Instructions:
+ * - Click "z" launch the tongue
+ * - Catch 40 flies and win the game
+ *
+ * Made with p5 a
+ * https://p5js.org/
+ * 
  */
 
 "use strict";
@@ -31,7 +43,7 @@ let frogRingRadius; // distance of frogs from center
 
 // flies
 let flies = [];
-let winningScore = 24; // first frog to reach 6 flies wins
+let winningScore = 40; // first frog to reach 6 flies wins
 
 //star button
 const startbuttonR = {
@@ -63,7 +75,7 @@ function preload() {
   eatFlySound = loadSound("assets/sounds/eatfly.mp3");
 }
 
-// === SOUND HELPERS ===
+// === SOUND===
 function startGameMusic() {
   if (gameSound && !gameSound.isPlaying()) {
     gameSound.setVolume(0.25); // softer bg music
@@ -93,6 +105,7 @@ function setup() {
 
 //fly
 
+//first flies
 function setupFrogs() {
   frogs = [];
   let angles = [-HALF_PI, 0, HALF_PI, PI]; // 4 frogs
@@ -127,8 +140,8 @@ function makeFly() {
   return {
     angle: angle,
     r: 0, // start at center
-    speed: random(3.0, 4.2), // move outward
-    size: 12,
+    speed: random(1.5, 3.0), // move outward
+    size: 8,
     alive: true,
   };
 }
@@ -166,7 +179,7 @@ function resetGame() {
   }
   // reset flies
   flies = [];
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 4; i++) {
     flies.push(makeFly());
   }
   gameState = "play";
@@ -177,7 +190,7 @@ function drawPond() {
   push();
   imageMode(CENTER);
 
-  // draw your lily pad image at the center
+  //  lily pad image at the center
   image(lilyPadImg, centerX, centerY, 328, 313);
 
   pop();
@@ -197,7 +210,7 @@ function drawInstructions() {
   textFont(font2);
   textWrap(WORD);
   text(
-    "The goal is to eat as many flies as you can, press the 'z' key to active the frogs tongue! The first to 12 wins, don't be slow. Each fly you catch brings you closer to victory.\n\n" +
+    "The goal is to eat as many flies as you can, press the 'z' key to active the frogs tongue! The first to 40 wins, don't be slow. Each fly you catch brings you closer to victory.\n\n" +
       "Stay quick, stay alert, and good luck!",
     40,
     150,
@@ -317,7 +330,7 @@ function drawEndScreen() {
   }
 }
 
-// ------------------------- POSITION HELPERS -------------------------
+// ------------------------- POSITION  -------------------------
 
 function frogMouthPosition(frog) {
   // frog sits outside the pond
@@ -420,7 +433,7 @@ function checkTongueHits() {
       if (d < 15) {
         // fly is eaten
         fly.alive = false;
-        f.score += 2;
+        f.score += 1;
 
         // 🔊 soft, short eat sound (for player only)
         if (eatFlySound && f.isPlayer) {
